@@ -1,0 +1,17 @@
+{
+    "folders":
+    [
+        {
+            "path": "www",
+            "name": "Markup",
+            "folder_exclude_patterns": ["scripts"]
+        },
+        {
+            "path": "www/scripts/app",
+            "name": "App"
+        },
+        {
+            "path": "."
+        }
+    ]
+}
