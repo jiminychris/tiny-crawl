@@ -1,4 +1,15 @@
 define(["jquery"], function($) {
+    function newCanvas(width, height)
+    {
+        var canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        var context = canvas.getContext("2d");
+        context.webkitImageSmoothingEnabled = false;
+        context.mozImageSmoothingEnabled = false;
+        context.imageSmoothingEnabled = false; /// future
+        return canvas;
+    }
     var canvases = $("canvas#screen");
     if (canvases.length != 1)
     {
@@ -7,7 +18,10 @@ define(["jquery"], function($) {
     else
     {
         var scale = 3;
+        var margin = 1;
         var canvas = canvases[0];
+        var width = canvas.width;
+        var height = canvas.height;
         canvas.width = canvas.width*scale;
         canvas.height = canvas.height*scale;
         var context = canvas.getContext("2d");
@@ -20,21 +34,27 @@ define(["jquery"], function($) {
         context.fillRect(0, 0, canvas.width, canvas.height);
         var img = new Image;
         img.onload = function() {
-            var wall = document.createElement("canvas");
-            wall.width = canvas.width - 2*scale;
-            wall.height = canvas.height - 2*scale;
+            var wall = newCanvas(width-2*margin, height-2*margin);
             wallContext = wall.getContext("2d");
+            var tile = newCanvas(8, 8);
+            tile.getContext("2d").drawImage(img, 0, 0, 8, 8, 0, 0,
+                8, 8);
 
-            wallContext.webkitImageSmoothingEnabled = false;
-            wallContext.mozImageSmoothingEnabled = false;
-            wallContext.imageSmoothingEnabled = false; /// future
+            var walkAnimation = [];
+            for (var i=0; i<4; i++)
+            {
+                var sprite = newCanvas(26, 26);
+                
+                walkAnimation.push(sprite);
+            }
 
-            for (var j=0; j<wall.height; j+=img.height*scale)
-                for (var i=0; i<wall.width; i+=img.width*scale)
-                    wallContext.drawImage(img, i, j,
-                        img.width*scale, img.height*scale);
-            context.drawImage(wall, scale, scale)
+            for (var j=0; j<wall.height; j+=tile.height)
+                for (var i=0; i<wall.width; i+=tile.width)
+                    wallContext.drawImage(tile, i, j);
+
+            context.drawImage(wall, 0, 0, wall.width, wall.height,
+                margin*scale, margin*scale, wall.width*scale, wall.height*scale);
         };
-        img.src = "images/DungeonWallpaper.png";
+        img.src = "images/spritesheet.png";
     }
 });
