@@ -1,0 +1,33 @@
+{
+    "type": "screen",
+    "width": 88,
+    "height": 31,
+    "x-scale": 3,
+    "y-scale": 3,
+    "element":
+    {
+        "type": "border",
+        "thickness": 1,
+        "color": "#000000",
+        "element":
+        {
+            "type": "stackpanel",
+            "elements":
+            [
+                {
+                    "type": "border",
+                    "height": 8,
+                    "thickness": [0, 0, 1, 0],
+                    "color": "#000000",
+                    "element":
+                    {
+                        "type": "menu"
+                    }
+                },
+                {
+                    "type": "camera"
+                }
+            ]
+        }
+    }
+}

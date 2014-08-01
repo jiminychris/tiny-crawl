@@ -3,12 +3,22 @@
     [
         {
             "path": "www",
-            "name": "Markup",
-            "folder_exclude_patterns": ["scripts", "images", "*.app"]
+            "name": "Html",
+            "file_include_patterns": ["*.html", "*.htm"],
+            "folder_exclude_patterns": ["*"]
         },
         {
             "path": "www/scripts/app",
-            "name": "App"
+            "name": "App",
+            "file_include_patterns": ["*.js"] 
+        },
+        {
+            "path": "www/views",
+            "name": "Views" 
+        },
+        {
+            "path": "www/scripts/jiminychris",
+            "name": "jiminychris" 
         },
         {
             "path": "."
