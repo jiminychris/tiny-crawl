@@ -4,7 +4,7 @@
         {
             "path": "www",
             "name": "Markup",
-            "folder_exclude_patterns": ["scripts", "images"]
+            "folder_exclude_patterns": ["scripts", "images", "*.app"]
         },
         {
             "path": "www/scripts/app",
