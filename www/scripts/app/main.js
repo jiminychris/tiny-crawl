@@ -19,13 +19,32 @@ define(["jquery"], function($, Canvas, Border, Thickness) {
     {
         var scale = 3;
         var margin = 1;
-        var canvasWidth = 88;
-        var canvasHeight = 31;
-        var width = canvasWidth - margin*2;
-        var height = canvasHeight - margin*2;
+        var scaledMargin = margin*scale;
+        var borderWidth = 88;
+        var borderHeight = 31;
+        var width = borderWidth - margin*2;
+        var height = borderHeight - margin*2;
         var screenDiv = screenDivs.first();
-        var canvas = newCanvas(canvasWidth*scale, canvasHeight*scale);
+        screenDiv.css({
+            "height": height*scale,
+            "width": width*scale,
+            "border": scaledMargin.toString() + "px black solid"}
+            );
+        var canvas = newCanvas(width*scale, height*scale);
+        canvas.style.position = "absolute";
+        canvas.style.top = 0;
+        canvas.style.left = 0;
+        canvas.style.zIndex = 0;
+        var menu = document.createElement("div");
+        menu.style.background = "#323232";
+        menu.style.borderWidth = "0px 0px " + scaledMargin.toString() + "px 0px";
+        menu.style.borderColor = "black";
+        menu.style.borderStyle = "solid";
+        menu.style.height = (7*scale).toString() + "px";
+        menu.style.width = (width*scale).toString() + "px";
+        menu.style.position = "absolute";
         screenDiv.append(canvas);
+        screenDiv.append(menu);
         var context = canvas.getContext("2d");
         context.fillStyle = "#000000";
         var gameScreen = newCanvas(width, height);
@@ -37,10 +56,8 @@ define(["jquery"], function($, Canvas, Border, Thickness) {
         img.onload = function() {
             var wallTile = newCanvas(8, 8);
             var floorTile = newCanvas(24, 6);
-            var menuTile = newCanvas(8, 8);
             var wall = newCanvas(width, height-6);
             var floor = newCanvas(width, 6);
-            var menu = newCanvas(width, 8);
             var maximAnimation = [];
             var skeletonAnimation = [];
             function tick(i)
@@ -51,17 +68,15 @@ define(["jquery"], function($, Canvas, Border, Thickness) {
                 ctx.drawImage(floor, 0, gameScreen.height-floor.height);
                 ctx.drawImage(maximAnimation[i], 0, gameScreen.height-26);
                 ctx.drawImage(skeletonAnimation[i], 52, gameScreen.height-26);
-                ctx.drawImage(menu, 0, 0);
 
                 context.fillRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(gameScreen, 0, 0, gameScreen.width, gameScreen.height,
-                    margin*scale, margin*scale, gameScreen.width*scale, gameScreen.height*scale);
+                    0, 0, gameScreen.width*scale, gameScreen.height*scale);
 
                 setTimeout(function() { tick((i+1)%4) }, 250);
             }
             wallTile.getContext("2d").drawImage(img, 0, 0, 8, 8, 0, 0, 8, 8);
             floorTile.getContext("2d").drawImage(img, 16, 0, 24, 6, 0, 0, 24, 6);
-            menuTile.getContext("2d").drawImage(img, 8, 0, 8, 8, 0, 0, 8, 8);
 
             for (var i=0; i<4; i++)
             {
@@ -86,8 +101,6 @@ define(["jquery"], function($, Canvas, Border, Thickness) {
                     wall.getContext("2d").drawImage(wallTile, i, j);
             for (var i=0; i<floor.width; i+=floorTile.width)
                 floor.getContext("2d").drawImage(floorTile, i, 0);
-            for (var i=0; i<menu.width; i+= menuTile.width)
-                menu.getContext("2d").drawImage(menuTile, i, 0);
             tick(0);
         };
         img.src = "images/spritesheet.png";
