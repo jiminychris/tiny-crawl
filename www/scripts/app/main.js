@@ -1,4 +1,4 @@
-define(["jquery", "jiminychris/glue/Thickness"], function($, Thickness) {
+define(["jquery"], function($, Canvas, Border, Thickness) {
     function newCanvas(width, height)
     {
         var canvas = document.createElement("canvas");
