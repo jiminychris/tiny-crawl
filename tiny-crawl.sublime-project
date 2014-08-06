@@ -8,6 +8,11 @@
             "folder_exclude_patterns": ["*"]
         },
         {
+            "path": "www/styles",
+            "name": "Styles",
+            "file_include_patterns": ["*.css"]
+        },
+        {
             "path": "www/scripts/app",
             "name": "App",
             "file_include_patterns": ["*.js"] 

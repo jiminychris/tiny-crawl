@@ -1,57 +1,54 @@
-define(["jquery"], function($, Canvas, Border, Thickness) {
-    function newCanvas(width, height)
-    {
-        var canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        var context = canvas.getContext("2d");
-        context.webkitImageSmoothingEnabled = false;
-        context.mozImageSmoothingEnabled = false;
-        context.imageSmoothingEnabled = false; /// future
-        return canvas;
-    }
-    var screenDivs = $("div#screen");
-    if (screenDivs.length != 1)
+define(["jquery", "app/Settings", "app/Camera", "jiminychris/glue/controls/Menu",
+    "jiminychris/glue/controls/Border", "jiminychris/glue/Thickness", "jiminychris/glue/controls/Panel",
+    "app/World",
+    "domReady!"],
+    function($, Settings, Camera, Menu, Border, Thickness, Panel, World) {
+
+    var menu = new Menu();
+    var menuBorder = new Border();
+    menuBorder.thickness(new Thickness(0, 0, Settings.margin(), 0));
+    menuBorder.width("stretch");
+    menuBorder.height(Settings.menuHeight());
+    menuBorder.color("black");
+    menuBorder.child(menu);
+
+    var camera = new Camera(Settings.width(), Settings.height());
+
+    var panel = new Panel();
+    panel.addChild(camera);
+    panel.addChild(menuBorder);
+
+    var border = new Border();
+    border.thickness(new Thickness(Settings.margin()));
+    border.color("black");
+    border.child(panel);
+    border.width(Settings.width());
+    border.height(Settings.height());
+
+
+    var containers = $("div#game-container");
+    if (containers.length !== 1)
     {
         // TO-DO error
     }
     else
     {
-        var scale = 3;
-        var margin = 1;
-        var scaledMargin = margin*scale;
-        var borderWidth = 88;
-        var borderHeight = 31;
-        var width = borderWidth - margin*2;
-        var height = borderHeight - margin*2;
-        var screenDiv = screenDivs.first();
-        screenDiv.css({
-            "height": height*scale,
-            "width": width*scale,
-            "border": scaledMargin.toString() + "px black solid"}
-            );
-        var canvas = newCanvas(width*scale, height*scale);
-        canvas.style.position = "absolute";
-        canvas.style.top = 0;
-        canvas.style.left = 0;
-        canvas.style.zIndex = 0;
-        var menu = document.createElement("div");
-        menu.style.background = "#323232";
-        menu.style.borderWidth = "0px 0px " + scaledMargin.toString() + "px 0px";
-        menu.style.borderColor = "black";
-        menu.style.borderStyle = "solid";
-        menu.style.height = (7*scale).toString() + "px";
-        menu.style.width = (width*scale).toString() + "px";
-        menu.style.position = "absolute";
-        screenDiv.append(canvas);
-        screenDiv.append(menu);
-        var context = canvas.getContext("2d");
-        context.fillStyle = "#000000";
-        var gameScreen = newCanvas(width, height);
-        gameScreen.getContext("2d").fillStyle = "#000000";
+        containers.first().append(border.dom());
 
-        context.fillStyle = "#000000"
-        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        function newCanvas(width, height)
+        {
+            var canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            var context = canvas.getContext("2d");
+            context.webkitImageSmoothingEnabled = false;
+            context.mozImageSmoothingEnabled = false;
+            context.imageSmoothingEnabled = false; /// future
+            return canvas;
+        }
+        var width = 86;
+        var height = 31;
         var img = new Image;
         img.onload = function() {
             var wallTile = newCanvas(8, 8);
@@ -60,20 +57,13 @@ define(["jquery"], function($, Canvas, Border, Thickness) {
             var floor = newCanvas(width, 6);
             var maximAnimation = [];
             var skeletonAnimation = [];
-            function tick(i)
+            function tick(lastTime)
             {
-                var ctx = gameScreen.getContext("2d");
-                ctx.fillRect(0, 0, width, height);
-                ctx.drawImage(wall, 0, 0);
-                ctx.drawImage(floor, 0, gameScreen.height-floor.height);
-                ctx.drawImage(maximAnimation[i], 0, gameScreen.height-26);
-                ctx.drawImage(skeletonAnimation[i], 52, gameScreen.height-26);
+                var currentTime = Date.now()
+                var ds = (currentTime - lastTime)/1000;
+                border.render(ds);
 
-                context.fillRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(gameScreen, 0, 0, gameScreen.width, gameScreen.height,
-                    0, 0, gameScreen.width*scale, gameScreen.height*scale);
-
-                setTimeout(function() { tick((i+1)%4) }, 250);
+                setTimeout(function() { tick(currentTime) }, 10);
             }
             wallTile.getContext("2d").drawImage(img, 0, 0, 8, 8, 0, 0, 8, 8);
             floorTile.getContext("2d").drawImage(img, 16, 0, 24, 6, 0, 0, 24, 6);
@@ -101,7 +91,12 @@ define(["jquery"], function($, Canvas, Border, Thickness) {
                     wall.getContext("2d").drawImage(wallTile, i, j);
             for (var i=0; i<floor.width; i+=floorTile.width)
                 floor.getContext("2d").drawImage(floorTile, i, 0);
-            tick(0);
+
+            camera.wall = wall;
+            camera.floor = floor;
+            camera.maximAnimation = maximAnimation;
+            camera.skeletonAnimation = skeletonAnimation;
+            tick(Date.now());
         };
         img.src = "images/spritesheet.png";
     }

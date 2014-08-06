@@ -1,3 +1,15 @@
-div#screen {
-	position: relative;
+body * {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.panel {
+    position: relative;
+}
+
+.panel > * {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }

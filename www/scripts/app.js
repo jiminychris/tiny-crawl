@@ -7,7 +7,8 @@ requirejs.config({
     "paths": {
       "app": "../app",
       "jquery": "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min",
-      "jiminychris": "../jiminychris"
+      "jiminychris": "../jiminychris",
+      "domReady": "domReady"
     }
 });
 
