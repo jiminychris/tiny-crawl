@@ -1,4 +1,4 @@
-define(["jiminychris/glue/Element"], function (Element) {
+define(["jiminychris/glue/element"], function (Element) {
     function Menu() {
         Element.call(this);
 

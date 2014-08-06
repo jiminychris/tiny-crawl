@@ -1,4 +1,4 @@
-define(["jiminychris/Exception"], function (Exception) {
+define(["jiminychris/exception"], function (Exception) {
     function Thickness() {
         var n = arguments.length;
         if (n === 0)

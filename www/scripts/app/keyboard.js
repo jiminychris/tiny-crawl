@@ -1,4 +1,4 @@
-define(["!domReady"], function() {
+define(["domReady!"], function() {
     function Keyboard() {
         this._listeners = [];
         this._down = {};

@@ -1,4 +1,4 @@
-define(["jiminychris/glue/Thickness", "jiminychris/glue/controls/Decorator"], function (Thickness, Decorator) {
+define(["jiminychris/glue/thickness", "jiminychris/glue/controls/decorator"], function (Thickness, Decorator) {
     function Border() {
         Decorator.call(this);
 

@@ -1,6 +1,6 @@
-define(["jquery", "app/Settings", "app/Camera", "jiminychris/glue/controls/Menu",
-    "jiminychris/glue/controls/Border", "jiminychris/glue/Thickness", "jiminychris/glue/controls/Panel",
-    "app/World",
+define(["jquery", "app/settings", "app/camera", "jiminychris/glue/controls/menu",
+    "jiminychris/glue/controls/border", "jiminychris/glue/thickness", "jiminychris/glue/controls/panel",
+    "app/world",
     "domReady!"],
     function($, Settings, Camera, Menu, Border, Thickness, Panel, World) {
 

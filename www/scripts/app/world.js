@@ -1,4 +1,4 @@
-define(["app/Keyboard"], function(Keyboard) {
+define(["app/keyboard"], function(Keyboard) {
     function World() {
         var avatar = {
             x: 0,

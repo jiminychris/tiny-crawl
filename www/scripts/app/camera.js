@@ -1,4 +1,4 @@
-define(["app/Settings", "app/World"], function(Settings, World) {
+define(["app/settings", "app/world"], function(Settings, World) {
     function Camera(width, height) {
         this._width = width;
         this._height = height;
