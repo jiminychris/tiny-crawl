@@ -5,7 +5,7 @@ define([], function() {
     var menuHeight = 7;
     var pixelsPerMeter = 10;
     var metersPerPixel = 1/pixelsPerMeter;
-    var scale = 16;
+    var scale = 10;
     return {
         "width": function() { return width*scale; },
         "height": function() { return height*scale; },

@@ -48,7 +48,7 @@ define(["jquery", "app/settings", "app/camera", "jiminychris/glue/controls/menu"
             return canvas;
         }
         var width = 86;
-        var height = 31;
+        var height = 29;
         var img = new Image;
         img.onload = function() {
             var wallTile = newCanvas(8, 8);
@@ -63,7 +63,7 @@ define(["jquery", "app/settings", "app/camera", "jiminychris/glue/controls/menu"
                 var ds = (currentTime - lastTime)/1000;
                 border.render(ds);
 
-                setTimeout(function() { tick(currentTime) }, 10);
+                window.requestAnimationFrame(function() { tick(currentTime) });
             }
             wallTile.getContext("2d").drawImage(img, 0, 0, 8, 8, 0, 0, 8, 8);
             floorTile.getContext("2d").drawImage(img, 16, 0, 24, 6, 0, 0, 24, 6);
@@ -86,7 +86,7 @@ define(["jquery", "app/settings", "app/camera", "jiminychris/glue/controls/menu"
                 skeletonAnimation.push(sprite);
             }
 
-            for (var j=wall.height-wallTile.height; j>-wall.height; j-=wallTile.height)
+            for (var j=wall.height-wallTile.height; j>-wallTile.height; j-=wallTile.height)
                 for (var i=0; i<wall.width; i+=wallTile.width)
                     wall.getContext("2d").drawImage(wallTile, i, j);
             for (var i=0; i<floor.width; i+=floorTile.width)
@@ -96,7 +96,7 @@ define(["jquery", "app/settings", "app/camera", "jiminychris/glue/controls/menu"
             camera.floor = floor;
             camera.maximAnimation = maximAnimation;
             camera.skeletonAnimation = skeletonAnimation;
-            tick(Date.now());
+            window.requestAnimationFrame(function() { tick(Date.now()) });
         };
         img.src = "images/spritesheet.png";
     }
