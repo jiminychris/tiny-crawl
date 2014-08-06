@@ -3,7 +3,7 @@ define(["app/keyboard"], function(Keyboard) {
         var avatar = {
             x: 0,
             dx: 0,
-            maxSpeed: 1.4,
+            maxSpeed: 3,
             handleDown: function(e) {
                 if (e.keyCode === 37)
                     avatar.dx += -avatar.maxSpeed;

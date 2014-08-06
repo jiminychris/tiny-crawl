@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"border",
+				"borderWidth"
+			],
+			[
+				"scl",
+				"scaledMargin"
+			],
+			[
 				"get",
 				"getContext"
 			]
@@ -39,6 +47,18 @@
 	},
 	"file_history":
 	[
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/settings.js",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/Gemfile",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/.gitignore",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/camera.js",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/main.js",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/_config.yml",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/styles/style.css",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/index.html",
+		"/C/Users/jimin_000/Dropbox/Game Cloud/The Wolf Among Us/winlink.bat",
+		"/C/Users/jimin_000/Dropbox/Game Cloud/Civilization V/winlink.bat",
+		"/C/Users/jimin_000/Dropbox/Game Cloud/Knights of the Old Republic/winlink.bat",
+		"/C/Users/jimin_000/Dropbox/Game Cloud/Civilization V/maclink.sh",
 		"/Users/chris/Git/tiny-crawl/www/scripts/app/main.js",
 		"/Users/chris/Git/tiny-crawl/tiny-crawl.sublime-project",
 		"/Users/chris/Git/tiny-crawl/tiny-crawl.sublime-workspace",
@@ -62,7 +82,7 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -76,6 +96,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"29",
+			"31",
+			"menu",
+			"canvasHeight",
+			"canvasWidth",
 			"tiny-crawl",
 			"newImg"
 		],
