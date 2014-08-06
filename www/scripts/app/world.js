@@ -6,12 +6,15 @@ define(["app/keyboard"], function(Keyboard) {
             maxSpeed: 1.4,
             handleDown: function(e) {
                 if (e.keyCode === 37)
-                    avatar.dx = -avatar.maxSpeed;
+                    avatar.dx += -avatar.maxSpeed;
                 else if (e.keyCode === 39)
-                    avatar.dx = avatar.maxSpeed;
+                    avatar.dx += avatar.maxSpeed;
             },
             handleUp: function(e) {
-                avatar.dx = 0;
+                if (e.keyCode === 37)
+                    avatar.dx += avatar.maxSpeed;
+                else if (e.keyCode === 39)
+                    avatar.dx += -avatar.maxSpeed;
             }
         };
 
