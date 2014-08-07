@@ -39,14 +39,15 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
         function mouseUp(e) {
             up(e.offsetX, e.offsetY);
         }function touchDown(e) {
-            down(e.targetTouches[0].pageX-MainView.camera.dom().offsetLeft, e.targetTouches[0].pageY-MainView.camera.dom().offsetTop);
+            down(e.targetTouches[0].pageX-getOffsetLeft(MainView.camera.dom()), e.targetTouches[0].pageY-getOffsetTop(MainView.camera.dom()));
         }
         function touchUp(e) {
-            up(e.changedTouches[0].pageX-MainView.camera.dom().offsetLeft, e.changedTouches[0].pageY-MainView.camera.dom().offsetTop);
+            up(e.changedTouches[0].pageX-getOffsetLeft(MainView.camera.dom()), e.changedTouches[0].pageY-getOffsetTop(MainView.camera.dom()));
         }
 
         function down(x, y) {
             var width = MainView.camera.width();
+            console.log(x, width, width/3, width*2/3);
             if (x < width/3 && that._down["LEFT"] === undefined) {
                 listener.handleLeftDown();
                 that._down["LEFT"] = true;
@@ -66,6 +67,28 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
                 listener.handleRightUp();
                 that._down["RIGHT"] = undefined;
             }
+        }
+
+        function getOffsetLeft(elem) {
+            var offsetLeft = 0;
+            do {
+              if ( !isNaN( elem.offsetLeft ) )
+              {
+                  offsetLeft += elem.offsetLeft;
+              }
+            } while( elem = elem.offsetParent );
+            return offsetLeft;
+        }
+
+        function getOffsetTop(elem) {
+            var offsetTop = 0;
+            do {
+              if ( !isNaN( elem.offsetTop ) )
+              {
+                  offsetTop += elem.offsetTop;
+              }
+            } while( elem = elem.offsetParent );
+            return offsetTop;
         }
     };
 
