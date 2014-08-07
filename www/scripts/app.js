@@ -13,4 +13,6 @@ requirejs.config({
 });
 
 // Load the main app module to start the app
-requirejs(["app/main"]);
+requirejs(["knockout", "app/viewmodels/mainviewmodel", "domReady!"], function(ko, MainViewModel) {
+	//ko.applyBindings(new MainViewModel());
+});
