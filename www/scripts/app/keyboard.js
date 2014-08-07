@@ -39,10 +39,10 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
         function mouseUp(e) {
             up(e.offsetX, e.offsetY);
         }function touchDown(e) {
-            down(e.targetTouches[0].offsetX, e.targetTouches[0].offsetY);
+            down(e.targetTouches[0].pageX-MainView.camera.dom().offsetLeft, e.targetTouches[0].pageY-MainView.camera.dom().offsetTop);
         }
         function touchUp(e) {
-            up(e.targetTouches[0].offsetX, e.targetTouches[0].offsetY);
+            up(e.targetTouches[0].pageX-MainView.camera.dom().offsetLeft, e.targetTouches[0].pageY-MainView.camera.dom().offsetTop);
         }
 
         function down(x, y) {
