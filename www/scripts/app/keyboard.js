@@ -42,7 +42,8 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
             down(e.targetTouches[0].pageX-MainView.camera.dom().offsetLeft, e.targetTouches[0].pageY-MainView.camera.dom().offsetTop);
         }
         function touchUp(e) {
-            up(e.targetTouches[0].pageX-MainView.camera.dom().offsetLeft, e.targetTouches[0].pageY-MainView.camera.dom().offsetTop);
+            console.log(e);
+            up(e.changedTouches[0].pageX-MainView.camera.dom().offsetLeft, e.changedTouches[0].pageY-MainView.camera.dom().offsetTop);
         }
 
         function down(x, y) {
@@ -57,6 +58,7 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
             }
         }
         function up(x, y) {
+            console.log(that._down);
             var width = MainView.camera.width();
             if (that._down["LEFT"] === true) {
                 listener.handleLeftUp();
