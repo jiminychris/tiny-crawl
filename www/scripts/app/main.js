@@ -1,4 +1,4 @@
-define(["app/mainview", "app/world", "app/Settings"], function(MainView, World, Settings) {
+define(["app/mainview", "app/world", "app/settings"], function(MainView, World, Settings) {
     function newCanvas(width, height)
     {
         var canvas = document.createElement("canvas");
