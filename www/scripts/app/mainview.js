@@ -1,8 +1,7 @@
 define(["jquery", "app/settings", "app/camera", "jiminychris/glue/controls/menu",
     "jiminychris/glue/controls/border", "jiminychris/glue/thickness", "jiminychris/glue/controls/panel",
-    "app/world",
     "domReady!"],
-    function($, Settings, Camera, Menu, Border, Thickness, Panel, World) {
+    function($, Settings, Camera, Menu, Border, Thickness, Panel) {
 
     var menu = new Menu();
     var menuBorder = new Border();
@@ -100,4 +99,5 @@ define(["jquery", "app/settings", "app/camera", "jiminychris/glue/controls/menu"
         };
         img.src = "images/spritesheet.png";
     }
+    return { camera: camera };
 });

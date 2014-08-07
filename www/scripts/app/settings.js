@@ -1,11 +1,11 @@
-define([], function() {
+define(["jquery"], function($) {
     var width = 86;
     var height = 29;
     var margin = 1;
     var menuHeight = 7;
     var pixelsPerMeter = 10;
     var metersPerPixel = 1/pixelsPerMeter;
-    var scale = 10;
+    var scale = $(window).width()/width*.8;
     return {
         "width": function() { return width*scale; },
         "height": function() { return height*scale; },

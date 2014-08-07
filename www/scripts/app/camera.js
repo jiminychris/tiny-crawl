@@ -1,4 +1,4 @@
-define(["app/settings", "app/world"], function(Settings, World) {
+define([], function() {
     function Camera(width, height) {
         this._width = width;
         this._height = height;
@@ -13,27 +13,31 @@ define(["app/settings", "app/world"], function(Settings, World) {
     }
 
     Camera.prototype.render = function(ds) {
-        this._ticker += ds;
-        if (this._ticker > .25)
-        {
-            this._ticker = 0;
-            this._i = (this._i + 1) % 4;
-        }
-
-        var c = newCanvas(86, 29)
-        var ctx = c.getContext("2d");
-        ctx.fillRect(0, 0, this._width, this._height);
-        ctx.drawImage(this.wall, 0, 0);
-        ctx.drawImage(this.floor, 0, c.height-this.floor.height);
-        ctx.drawImage(this.maximAnimation[this._i], World.avatar.x*Settings.pixelsPerMeter()-this.maximAnimation[this._i].width/2, c.height-25);
-        ctx.drawImage(this.skeletonAnimation[this._i], 52, c.height-25);
-
-        this._context.drawImage(c, 0, 0, c.width, c.height, 0, 0, this._width, this._height);
     };
 
     Camera.prototype.dom = function() {
         return this._canvas;
-    };
+    };    
+
+    Camera.prototype.width = function() {
+        if (arguments.length === 0)
+            return this._width;
+        this._width = arguments[0];
+        if (this._width === "stretch")
+            this._canvas.style.width = "100%";
+        else
+            this._canvas.style.width = this._width.toString() + "px";
+    }
+
+    Camera.prototype.height = function() {
+        if (arguments.length === 0)
+            return this._height;
+        this._height = arguments[0];
+        if (this._height === "stretch")
+            this._canvas.style.height = "100%";
+        else
+            this._canvas.style.height = this._height.toString() + "px";
+    }
 
     function newCanvas(width, height)
     {

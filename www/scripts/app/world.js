@@ -4,17 +4,17 @@ define(["app/keyboard"], function(Keyboard) {
             x: 0,
             dx: 0,
             maxSpeed: 3,
-            handleDown: function(e) {
-                if (e.keyCode === 37)
-                    avatar.dx += -avatar.maxSpeed;
-                else if (e.keyCode === 39)
-                    avatar.dx += avatar.maxSpeed;
+            handleLeftDown: function() {
+                avatar.dx += -avatar.maxSpeed;
             },
-            handleUp: function(e) {
-                if (e.keyCode === 37)
-                    avatar.dx += avatar.maxSpeed;
-                else if (e.keyCode === 39)
-                    avatar.dx += -avatar.maxSpeed;
+            handleLeftUp: function() {
+                avatar.dx += avatar.maxSpeed;
+            },
+            handleRightDown: function() {
+                avatar.dx += avatar.maxSpeed;
+            },
+            handleRightUp: function() {
+                avatar.dx += -avatar.maxSpeed;
             }
         };
 
