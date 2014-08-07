@@ -28,8 +28,8 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
             }
         });
 
-        $(MainView.camera.dom()).mousedown(mouseDown);
-        $(MainView.camera.dom()).mouseup(mouseUp);
+        /*$(MainView.camera.dom()).mousedown(mouseDown);
+        $(MainView.camera.dom()).mouseup(mouseUp);*/
         MainView.camera.dom().addEventListener("touchstart", touchDown);
         MainView.camera.dom().addEventListener("touchend", touchUp);
 
