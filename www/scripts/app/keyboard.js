@@ -28,24 +28,35 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
             }
         });
 
-        $(MainView.camera.dom()).mousedown(touchDown);
-        $(MainView.camera.dom()).mouseup(touchUp);
+        $(MainView.camera.dom()).mousedown(mouseDown);
+        $(MainView.camera.dom()).mouseup(mouseUp);
         MainView.camera.dom().addEventListener("touchstart", touchDown);
         MainView.camera.dom().addEventListener("touchend", touchUp);
 
-        function touchDown(e) {
+        function mouseDown(e) {
+            down(e.offsetX, e.offsetY);
+        }
+        function mouseUp(e) {
+            up(e.offsetX, e.offsetY);
+        }function touchDown(e) {
+            down(e.targetTouches[0].offsetX, e.targetTouches[0].offsetY);
+        }
+        function touchUp(e) {
+            up(e.targetTouches[0].offsetX, e.targetTouches[0].offsetY);
+        }
+
+        function down(x, y) {
             var width = MainView.camera.width();
-            console.log(e, width);
-            if (e.offsetX < width/3 && that._down["LEFT"] === undefined) {
+            if (x < width/3 && that._down["LEFT"] === undefined) {
                 listener.handleLeftDown();
                 that._down["LEFT"] = true;
             }
-            else if (e.offsetX > width*2/3 && that._down["RIGHT"] === undefined) {
+            else if (x > width*2/3 && that._down["RIGHT"] === undefined) {
                 listener.handleRightDown();
                 that._down["RIGHT"] = true;
             }
         }
-        function touchUp(e) {
+        function up(x, y) {
             var width = MainView.camera.width();
             if (that._down["LEFT"] === true) {
                 listener.handleLeftUp();
