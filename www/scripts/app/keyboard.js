@@ -28,7 +28,12 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
             }
         });
 
-        $(MainView.camera.dom()).mousedown(function(e) {
+        $(MainView.camera.dom()).mousedown(touchDown);
+        $(MainView.camera.dom()).mouseup(touchUp);
+        MainView.camera.dom().addEventListener("touchstart", touchDown);
+        MainView.camera.dom().addEventListener("touchend", touchUp);
+
+        function touchDown(e) {
             var width = MainView.camera.width();
             console.log(e, width);
             if (e.offsetX < width/3 && that._down["LEFT"] === undefined) {
@@ -39,9 +44,8 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
                 listener.handleRightDown();
                 that._down["RIGHT"] = true;
             }
-        });
-
-        $(MainView.camera.dom()).mouseup(function(e) {
+        }
+        function touchUp(e) {
             var width = MainView.camera.width();
             if (that._down["LEFT"] === true) {
                 listener.handleLeftUp();
@@ -51,7 +55,7 @@ define(["jquery", "app/mainview", "domReady!"], function($, MainView) {
                 listener.handleRightUp();
                 that._down["RIGHT"] = undefined;
             }
-        });
+        }
     };
 
     var keyboard = new Keyboard();
