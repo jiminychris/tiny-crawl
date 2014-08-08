@@ -5,10 +5,10 @@ define(["jquery"], function($) {
     var menuHeight = 7;
     var pixelsPerMeter = 10;
     var metersPerPixel = 1/pixelsPerMeter;
-    var scale = Math.floor($(window).width()/(width+margin*2));//*.8;
+    var scale = $(window).width()/(width+margin*2);//*.8;
     window.addEventListener("resize", function() {
         window.requestAnimationFrame(function() {
-            scale = Math.floor($(window).width()/(width+margin*2));
+            scale = $(window).width()/(width+margin*2);
         });
     });
     return {
