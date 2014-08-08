@@ -1,0 +1,9 @@
+{
+    "name": "tiny-crawl",
+    "version": "0.0.1",
+    "description": "A fun, tiny role-playing game",
+    "license": "MIT",
+    "dependencies": {
+        "jquery": "2.1.1"
+    }
+}
