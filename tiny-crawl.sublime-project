@@ -18,10 +18,6 @@
             "file_include_patterns": ["*.js"] 
         },
         {
-            "path": "www/views",
-            "name": "Views" 
-        },
-        {
             "path": "www/scripts/jiminychris",
             "name": "jiminychris" 
         },

@@ -55,6 +55,7 @@ define(["jiminychris/glue/thickness", "jiminychris/glue/controls/decorator"], fu
 
     Border.prototype.render = function(ds)
     {
+        
         Decorator.prototype.render.call(this, ds);
     };
 
