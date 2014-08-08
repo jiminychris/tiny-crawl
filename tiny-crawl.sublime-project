@@ -13,13 +13,9 @@
             "file_include_patterns": ["*.css"]
         },
         {
-            "path": "www/scripts/app",
-            "name": "App",
+            "path": "www/scripts",
+            "name": "Scripts",
             "file_include_patterns": ["*.js"] 
-        },
-        {
-            "path": "www/scripts/jiminychris",
-            "name": "jiminychris" 
         },
         {
             "path": "."
