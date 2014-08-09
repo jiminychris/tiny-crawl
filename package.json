@@ -4,6 +4,7 @@
     "description": "A fun, tiny role-playing game",
     "license": "MIT",
     "dependencies": {
-        "jquery": "2.1.1"
+        "jquery": "2.1.1",
+        "underscore": "1.6.0"
     }
 }
