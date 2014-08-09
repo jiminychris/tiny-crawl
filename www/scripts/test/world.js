@@ -1,5 +1,5 @@
 var assert = require("assert");
-var World = require("../jiminychris/ecs/world");
+var World = require("../ecs/world");
 describe('World', function() {
     describe('#createEntity()', function() {
         it('should return 0 and then 1', function() {

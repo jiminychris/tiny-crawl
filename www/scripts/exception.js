@@ -1,7 +1,7 @@
-define(function () {
-    return function Exception(message)
-    {
-       this.message = message;
-       this.name = "Exception";
-    }
-});
+function Exception(message)
+{
+   this.message = message;
+   this.name = "Exception";
+}
+
+module.exports = Exception;

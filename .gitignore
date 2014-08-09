@@ -3,3 +3,4 @@
 *.sublime-workspace
 node_modules
 www/bundle.js
+_site

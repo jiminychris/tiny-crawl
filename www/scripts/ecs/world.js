@@ -1,3 +1,5 @@
+var Exception = require("../exception");
+
 function World() {
     this._deletedEntityStack = [];
     this._entities = [];
@@ -17,9 +19,15 @@ World.prototype.createEntity = function() {
     return id;
 };
 
-World.prototype.killEntity = function(id) {
-    this._deletedEntityStack.push(id);
-    this._entities[id] = null;
+World.prototype.killEntity = function(entity) {
+    this._deletedEntityStack.push(entity);
+    this._entities[entity] = null;
+};
+
+World.prototype.addComponent = function(entity, component) {
+    if (this._entities[entity] === null)
+        throw new Exception("entity '" + entity + "' does not exist");
+
 };
 
 module.exports = World;

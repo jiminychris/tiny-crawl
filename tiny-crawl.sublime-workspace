@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"_enti",
+				"_entityIdStream"
+			],
+			[
 				"border",
 				"borderWidth"
 			],
@@ -20,10 +24,26 @@
 	"buffers":
 	[
 		{
+			"file": "www/scripts/main.js",
+			"settings":
+			{
+				"buffer_size": 212,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": ".gitignore",
 			"settings":
 			{
-				"buffer_size": 31,
+				"buffer_size": 59,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/index.html",
+			"settings":
+			{
+				"buffer_size": 320,
 				"line_ending": "Windows"
 			}
 		}
@@ -55,11 +75,20 @@
 	},
 	"file_history":
 	[
-		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/jiminychris/glue/controls/border.js",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/package.json",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/npm-debug.log",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/main.js",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/tiny-crawl.sublime-project",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/.gitignore",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/test/test.js",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/jiminychris/ecs/world.js",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/jiminychris/tiny-crawl/main.js",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/index.html",
+		"/C/Users/jimin_000/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/jimin_000/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/jiminychris/glue/controls/border.js",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/viewmodels/mainviewmodel.js",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app.js",
-		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/index.html",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/settings.js",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/styles/style.css",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/main.js",
@@ -67,7 +96,6 @@
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/lib/knockout.js",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/world.js",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/Gemfile",
-		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/.gitignore",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/www/scripts/app/camera.js",
 		"/C/Users/jimin_000/Documents/GitHub/tiny-crawl/_config.yml",
 		"/C/Users/jimin_000/Dropbox/Game Cloud/The Wolf Among Us/winlink.bat",
@@ -112,6 +140,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"white space",
 			"app/main",
 			"app/main\"",
 			"29",
@@ -143,19 +172,47 @@
 			[
 				{
 					"buffer": 0,
-					"file": ".gitignore",
+					"file": "www/scripts/main.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 31,
+						"buffer_size": 212,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								31,
-								31
+								151,
+								151
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": ".gitignore",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 59,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								45,
+								45
 							]
 						],
 						"settings":
@@ -166,7 +223,35 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "www/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 320,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								235,
+								235
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
