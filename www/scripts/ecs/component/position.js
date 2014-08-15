@@ -1,6 +1,8 @@
 var Component = require("./component");
 
-module.exports = Component("Position", function() {
+var Position = Component("Position", function() {
     this.x = 0;
     this.y = 0;
 });
+
+module.exports = Position;

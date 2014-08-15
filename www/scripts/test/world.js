@@ -135,7 +135,7 @@ describe("World", function() {
             world.addComponent(e0, health);
             world.addSystem(DamageSystem);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(health, aspects[0][Health.componentName()]);
+                assert.strictEqual(health, aspects[0](Health));
             };
             world.tick(0);
         });
@@ -146,7 +146,7 @@ describe("World", function() {
             var e0 = world.createEntity();
             world.addComponent(e0, health);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(health, aspects[0][Health.componentName()]);
+                assert.strictEqual(health, aspects[0](Health));
             };
             world.tick(0);
         });
@@ -160,7 +160,8 @@ describe("World", function() {
             world.addComponent(e0, health);
             world.addComponent(e0, threat);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(2, _.size(aspects[0]));
+                assert.strictEqual(health, aspects[0](Health));
+                assert.strictEqual(threat, aspects[0](Threat));
             };
             world.tick(0);
         });
@@ -173,7 +174,8 @@ describe("World", function() {
             world.addComponent(e0, health);
             world.addComponent(e0, threat);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(1, _.size(aspects[0]));
+                assert.strictEqual(health, aspects[0](Health));
+                assert.strictEqual(undefined, aspects[0](Threat));
             };
             world.tick(0);
         });

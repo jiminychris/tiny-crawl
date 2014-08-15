@@ -131,7 +131,11 @@ World.prototype._updateAspect = function(system, entity) {
             var componentName = componentConstructor.componentName();
             obj[componentName] = this._components[this._getComponentIdFromName(componentName)][entity];
         }, this);
-        this._aspects[systemId][entity] = obj;
+        var aspect = function(componentConstructor) {
+            var componentName = componentConstructor.componentName();
+            return obj[componentName];
+        };
+        this._aspects[systemId][entity] = aspect;
     }
 }
 
