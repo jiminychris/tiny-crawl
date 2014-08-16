@@ -1,4 +1,4 @@
-var assert = require("assert");
+var should = require("chai").should();
 var Component = require("../ecs/component/component");
 
 describe("Component", function() {
@@ -9,8 +9,8 @@ describe("Component", function() {
                 this.y = y;
             });
             var position = new Position(2, 3);
-            assert.strictEqual(2, position.x);
-            assert.strictEqual(3, position.y);
+            position.x.should.equal(2);
+            position.y.should.equal(3);
         });
         it("should add necessary 'class variables'", function() {
             var Position = Component("Position", function(x, y) {
@@ -18,7 +18,7 @@ describe("Component", function() {
                 this.y = y;
             });
             var position = new Position(2, 3);
-            assert.strictEqual("Position", position.constructor.componentName());
+            position.constructor.componentName().should.equal("Position");
         });
     });
 });

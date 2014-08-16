@@ -1,4 +1,4 @@
-var assert = require("assert");
+var should = require("chai").should();
 var World = require("../ecs/world");
 var Exception = require("../exception");
 var _ = require("underscore");
@@ -28,7 +28,7 @@ describe("World", function() {
             var world = new World();
             var e0 = world.createEntity();
             var e1 = world.createEntity();
-            assert.notEqual(e0, e1);
+            e0.should.not.equal(e1);
         });
         it("should reuse deleted IDs", function() {
             var world = new World();
@@ -36,14 +36,14 @@ describe("World", function() {
             var e1 = world.createEntity();
             var e2 = world.createEntity();
             world.killEntity(e1);
-            assert.strictEqual(e1, world.createEntity());
+            world.createEntity().should.equal(e1);
         });
     });
     describe("#addComponent()", function() {
         it("should throw an exception when referencing an undefined entity", function() {
             var world = new World();
             var health = new Health();
-            assert.throws(function() {
+            should.Throw(function() {
                 world.addComponent(0, health);
             }, Exception);
         });
@@ -52,7 +52,7 @@ describe("World", function() {
             var health = new Health();
             var e0 = world.createEntity();
             world.killEntity(e0);
-            assert.throws(function() {
+            should.Throw(function() {
                 world.addComponent(e0, health);
             }, Exception);
         });
@@ -60,7 +60,7 @@ describe("World", function() {
             var world = new World();
             var health = new Health();
             var e0 = world.createEntity();
-            assert.doesNotThrow(function() {
+            should.not.Throw(function() {
                 world.addComponent(e0, health);
             }, Exception);
         });
@@ -71,12 +71,12 @@ describe("World", function() {
             var health = new Health();
             var e0 = world.createEntity();
             world.addComponent(e0, health);
-            assert.strictEqual(health, world.fetchComponent(e0, Health));
+            world.fetchComponent(e0, Health).should.equal(health);
         });
         it("should return null for a non-present component", function() {
             var world = new World();
             var e0 = world.createEntity();
-            assert.strictEqual(null, world.fetchComponent(e0, Health));
+            should.not.exist(world.fetchComponent(e0, Health));
         });
     });
     describe("#removeComponent()", function() {
@@ -85,15 +85,15 @@ describe("World", function() {
             var health = new Health();
             var e0 = world.createEntity();
             world.addComponent(e0, health);
-            assert.strictEqual(health, world.fetchComponent(e0, Health));
+            world.fetchComponent(e0, Health).should.equal(health);
             world.removeComponent(e0, Health);
-            assert.strictEqual(null, world.fetchComponent(e0, Health));
+            should.not.exist(world.fetchComponent(e0, Health));
         });
     });
     describe("#addSystem()", function() {
         it("should not throw exception when adding system", function() {
             var world = new World();
-            assert.doesNotThrow(function() {
+            should.not.Throw(function() {
                 world.addSystem(DamageSystem);
             }, Exception);
         });
@@ -102,14 +102,14 @@ describe("World", function() {
             var health = new Health();
             var e0 = world.createEntity();
             world.addComponent(e0, health);
-            assert.doesNotThrow(function() {
+            should.not.Throw(function() {
                 world.addSystem(DamageSystem);
             }, Exception);
         });
         it("should throw exception when adding system more than once", function() {
             var world = new World();
             world.addSystem(DamageSystem);
-            assert.throws(function() {
+            should.Throw(function() {
                 world.addSystem(DamageSystem);
             }, Exception);
         });
@@ -117,14 +117,14 @@ describe("World", function() {
     describe("#tick()", function() {
         it("should not throw exception with no systems", function() {
             var world = new World();
-            assert.doesNotThrow(function() {
+            should.not.Throw(function() {
                 world.tick(0);
             }, Exception);
         });
         it("should not throw exception with one working system", function() {
             var world = new World();
             world.addSystem(DamageSystem);
-            assert.doesNotThrow(function() {
+            should.not.Throw(function() {
                 world.tick(0);
             }, Exception);
         });
@@ -135,7 +135,7 @@ describe("World", function() {
             world.addComponent(e0, health);
             world.addSystem(DamageSystem);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(health, aspects[0](Health));
+                aspects[0](Health).should.equal(health);
             };
             world.tick(0);
         });
@@ -146,7 +146,7 @@ describe("World", function() {
             var e0 = world.createEntity();
             world.addComponent(e0, health);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(health, aspects[0](Health));
+                aspects[0](Health).should.equal(health);
             };
             world.tick(0);
         });
@@ -160,8 +160,8 @@ describe("World", function() {
             world.addComponent(e0, health);
             world.addComponent(e0, threat);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(health, aspects[0](Health));
-                assert.strictEqual(threat, aspects[0](Threat));
+                aspects[0](Health).should.equal(health);
+                aspects[0](Threat).should.equal(threat);
             };
             world.tick(0);
         });
@@ -174,8 +174,8 @@ describe("World", function() {
             world.addComponent(e0, health);
             world.addComponent(e0, threat);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(health, aspects[0](Health));
-                assert.strictEqual(undefined, aspects[0](Threat));
+                aspects[0](Health).should.equal(health);
+                should.not.exist(aspects[0](Threat));
             };
             world.tick(0);
         });
@@ -188,12 +188,12 @@ describe("World", function() {
             world.addComponent(e0, health);
             world.addComponent(e0, threat);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(1, _.size(aspects));
+                _.size(aspects).should.equal(1);
             };
             world.tick(0);
             world.removeComponent(e0, Health);
             DamageSystem.tick = function(aspects, dt) {
-                assert.strictEqual(0, _.size(aspects));
+                _.size(aspects).should.equal(0);
             };
             world.tick(0);
         });
