@@ -1,9 +1,9 @@
 var System = require("./system");
-var Animation = require("../component/animaiton");
+var Animation = require("../component/animation");
 var Renderable = require("../component/renderable");
 var _ = require("underscore");
 
-var AnimationSystem = System("AnimationSystem", [Animation, Renderable], function(aspects, dt) {
+var AnimationSystem = System("AnimationSystem", [Animation, Renderable], function(world, aspects, dt) {
     _.each(aspects, function(aspect) {
         var animation = aspect(Animation);
         var renderable = aspect(Renderable);

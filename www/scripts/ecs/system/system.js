@@ -3,7 +3,7 @@ function System(systemName, aspect, tick) {
     system.systemName = function() {
         return systemName;
     };
-    system.getAspect = function() {
+    system.aspect = function() {
         return aspect;
     };
     system.tick = tick;
