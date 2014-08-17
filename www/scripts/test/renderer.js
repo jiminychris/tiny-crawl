@@ -5,7 +5,7 @@ var Exception = require("../Exception");
 describe("#Renderer", function() {
     it("should create a new renderer object", function() {
         var Position = 0, Camera = 1, Renderable = 2;
-        var CameraRenderer = Renderer("CameraRenderer", [Camera, Position], [Renderable, Position], function(aspects, dt) { });
+        var CameraRenderer = Renderer("CameraRenderer", [Camera, Position], [Renderable, Position], function(viewports, renderables) { });
 
         CameraRenderer.rendererName().should.equal("CameraRenderer");
         CameraRenderer.viewportAspect().should.have.length(2);

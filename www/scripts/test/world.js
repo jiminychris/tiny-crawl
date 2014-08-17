@@ -39,7 +39,7 @@ describe("World", function() {
         CameraRenderer.rendererName = function() { return "CameraRenderer"; };
         CameraRenderer.viewportAspect = function() { return [Camera, Position]; };
         CameraRenderer.renderableAspect = function() { return [Renderable, Position]; };
-        CameraRenderer.render = function(screen, viewports, renderables) { };
+        CameraRenderer.render = function(viewports, renderables) { };
     });
 
     describe("#createEntity()", function() {
@@ -257,7 +257,7 @@ describe("World", function() {
             var e2Renderable = new Renderable();
             e2Renderable.image = "hello";
 
-            CameraRenderer.render = function(screen, viewports, renderables) {
+            CameraRenderer.render = function(viewports, renderables) {
                 viewports[0](Position).x.should.equal(0);
                 renderables[0](Position).x.should.equal(1);
                 renderables[0](Renderable).image.should.equal("hi");
@@ -275,7 +275,7 @@ describe("World", function() {
 
             world.addRenderer(CameraRenderer);
 
-            world.render(null);
+            world.render();
         });
 
         it("should pass the proper aspects into renderer (renderer added first)", function() {
@@ -296,7 +296,7 @@ describe("World", function() {
             var e2Renderable = new Renderable();
             e2Renderable.image = "hello";
 
-            CameraRenderer.render = function(screen, viewports, renderables) {
+            CameraRenderer.render = function(viewports, renderables) {
                 viewports[0](Position).x.should.equal(0);
                 renderables[0](Position).x.should.equal(1);
                 renderables[0](Renderable).image.should.equal("hi");
@@ -314,7 +314,7 @@ describe("World", function() {
             world.addComponent(e2, e2Position);
             world.addComponent(e2, e2Renderable);
 
-            world.render(null);
+            world.render();
         });
 
         it("should pass the proper aspects into renderer (removing necessary components)", function() {
@@ -335,7 +335,7 @@ describe("World", function() {
             var e2Renderable = new Renderable();
             e2Renderable.image = "hello";
 
-            CameraRenderer.render = function(screen, viewports, renderables) {
+            CameraRenderer.render = function(viewports, renderables) {
                 viewports[0](Position).x.should.equal(0);
                 renderables[0](Position).x.should.equal(1);
                 renderables[0](Renderable).image.should.equal("hi");
@@ -353,7 +353,7 @@ describe("World", function() {
 
             world.removeComponent(e2, Renderable);
 
-            world.render(null);
+            world.render();
         });
     });
 });

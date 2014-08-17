@@ -162,9 +162,9 @@ World.prototype.addRenderer = function(renderer) {
     }, this);
 };
 
-World.prototype.render = function(screen) {
+World.prototype.render = function() {
     _.each(this._renderers, function(renderer, i) {
-        renderer.render(screen, _.values(this._viewportAspects[i]), _.values(this._renderableAspects[i]));
+        renderer.render(_.values(this._viewportAspects[i]), _.values(this._renderableAspects[i]));
     }, this);
 };
 
