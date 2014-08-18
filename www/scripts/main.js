@@ -3,6 +3,7 @@ var _ = require("underscore");
 var World = require("./ecs/world");
 var Position = require("./ecs/component/position");
 var Velocity = require("./ecs/component/velocity");
+var MovementSprites = require("./ecs/component/movementsprites");
 var Animation = require("./ecs/component/animation");
 var Renderable = require("./ecs/component/renderable");
 var Camera = require("./ecs/component/camera");
@@ -16,15 +17,24 @@ var spritesheet = new Image();
 spritesheet.onload = function() {
     var wallTile = newCanvas(8, 8);
     var maximStand = newCanvas(15, 18);
-    var maximWalk = [newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18)];
+    var maximWalkLeft = [newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18)];
+    var maximWalkRight = [newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18)];
     wallTile.getContext("2d").drawImage(spritesheet, 0, 0);
     maximStand.getContext("2d").drawImage(spritesheet, 0, 8, 15, 18, 0, 0, 15, 18);
     for (var i=0; i<4; i++)
-        maximWalk[i].getContext("2d").drawImage(spritesheet, 15*(1+i), 8, 15, 18, 0, 0, 15, 18);
+        maximWalkRight[i].getContext("2d").drawImage(spritesheet, 15*(1+i), 8, 15, 18, 0, 0, 15, 18);
+    for (var i=0; i<4; i++)
+    {
+        var ctx = maximWalkLeft[i].getContext("2d");
+        ctx.translate(maximWalkLeft.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(spritesheet, 15*(1+i), 8, 15, 18, 0, 0, 15, 18);
+    }
     main({
         "wallTile": wallTile,
         "maximStand": maximStand,
-        "maximWalk": maximWalk
+        "maximWalkLeft": maximWalkLeft,
+        "maximWalkRight": maximWalkRight,
     });
 };
 spritesheet.src = "images/spritesheet.png";
@@ -54,14 +64,15 @@ function main(images) {
     });
     var renderable = new Renderable();
     renderable.image(images.maximStand);
-    var animation = new Animation();
-    animation.spf(.25);
-    animation.frames(images.maximWalk);
+    var movementSprites = new MovementSprites();
+    movementSprites.right(images.maximWalkRight);
+    movementSprites.left(images.maximWalkLeft);
     world.addComponent(avatar, position);
     world.addComponent(avatar, velocity);
     world.addComponent(avatar, camera);
     world.addComponent(avatar, renderable);
     world.addComponent(avatar, animation);
+    world.addComponent(avatar, movementSprites);
     for (var j=0; j<2; j++)
         for (var i=0; i<20; i++)
             addTile(world, images.wallTile, (4+i*8)*Settings.metersPerPixel(), (4+j*8)*Settings.metersPerPixel());
