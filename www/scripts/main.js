@@ -71,7 +71,6 @@ function main(images) {
     world.addComponent(avatar, velocity);
     world.addComponent(avatar, camera);
     world.addComponent(avatar, renderable);
-    world.addComponent(avatar, animation);
     world.addComponent(avatar, movementSprites);
     for (var j=0; j<2; j++)
         for (var i=0; i<20; i++)
@@ -91,6 +90,11 @@ function main(images) {
                 if (!_.has(downedKeys, e.keyCode))
                 {
                     velocity.dx(velocity.dx()-speed);
+                    world.removeComponent(avatar, animation);
+                    var animation = new Animation();
+                    animation.frames(movementSprites.left);
+                    animation.spf(.25);
+                    world.addComponent(avatar, animation);
                     downedKeys[e.keyCode] = true;
                 }
                 break;
@@ -98,6 +102,11 @@ function main(images) {
                 if (!_.has(downedKeys, e.keyCode))
                 {
                     velocity.dx(velocity.dx()+speed);
+                    world.removeComponent(avatar, animation);
+                    var animation = new Animation();
+                    animation.frames(movementSprites.right);
+                    animation.spf(.25);
+                    world.addComponent(avatar, animation);
                     downedKeys[e.keyCode] = true;
                 }
                 break;
@@ -108,6 +117,8 @@ function main(images) {
             case 37:
                 if (_.has(downedKeys, e.keyCode))
                 {
+                    world.removeComponent(avatar, animation);
+                    renderable.image(images.maximStand);
                     velocity.dx(velocity.dx()+speed);
                     delete downedKeys[e.keyCode];
                 }
@@ -115,6 +126,8 @@ function main(images) {
             case 39:
                 if (_.has(downedKeys, e.keyCode))
                 {
+                    world.removeComponent(avatar, animation);
+                    renderable.image(images.maximStand);
                     velocity.dx(velocity.dx()-speed);
                     delete downedKeys[e.keyCode];
                 }
