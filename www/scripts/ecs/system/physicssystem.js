@@ -7,7 +7,6 @@ var PhysicsSystem = System("PhysicsSystem", [Position, Velocity], function(world
     _.each(aspects, function(aspect) {
         var position = aspect(Position);
         var velocity = aspect(Velocity);
-        console.log(dt);
         position.x(position.x()+velocity.dx()*dt);
         position.y(position.y()+velocity.dy()*dt);
     });

@@ -15,37 +15,66 @@ var spritesheet = new Image();
 
 spritesheet.onload = function() {
     var wallTile = newCanvas(8, 8);
+    var maximStand = newCanvas(15, 18);
+    var maximWalk = [newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18),newCanvas(15, 18)];
     wallTile.getContext("2d").drawImage(spritesheet, 0, 0);
-    main({"wallTile": wallTile});
+    maximStand.getContext("2d").drawImage(spritesheet, 0, 8, 15, 18, 0, 0, 15, 18);
+    for (var i=0; i<4; i++)
+        maximWalk[i].getContext("2d").drawImage(spritesheet, 15*(1+i), 8, 15, 18, 0, 0, 15, 18);
+    main({
+        "wallTile": wallTile,
+        "maximStand": maximStand,
+        "maximWalk": maximWalk
+    });
 };
 spritesheet.src = "images/spritesheet.png";
 
 function main(images) {
     var zoom = 8;
-    var screen = newCanvas(78*zoom, 29*zoom);
+    var screen = newCanvas(86*zoom, 21*zoom);
     var world = new World();
     world.addSystem(PhysicsSystem);
+    world.addSystem(AnimationSystem);
     world.addRenderer(CameraRenderer);
-    var entity = world.createEntity();
+    var avatar = world.createEntity();
     var position = new Position();
-    position.x(3.9);
-    position.y(1.45);
+    position.x(4.3);
+    position.y(.4);
+    position.z(1);
     var velocity = new Velocity();
     velocity.dx(0);
     velocity.dy(0);
     var camera = new Camera();
     camera.screen(screen);
     camera.zoom(zoom);
-    world.addComponent(entity, position);
-    world.addComponent(entity, velocity);
-    world.addComponent(entity, camera);
-    for (var j=0; j<5; j++)
+    camera.bounds({
+        left: 0,
+        right: 16,
+        bottom: -.6
+    });
+    var renderable = new Renderable();
+    renderable.image(images.maximStand);
+    var animation = new Animation();
+    animation.spf(.25);
+    animation.frames(images.maximWalk);
+    world.addComponent(avatar, position);
+    world.addComponent(avatar, velocity);
+    world.addComponent(avatar, camera);
+    world.addComponent(avatar, renderable);
+    world.addComponent(avatar, animation);
+    for (var j=0; j<2; j++)
         for (var i=0; i<20; i++)
             addTile(world, images.wallTile, (4+i*8)*Settings.metersPerPixel(), (4+j*8)*Settings.metersPerPixel());
 
     downedKeys = {};
     var speed = 1.4;
-    window.addEventListener("keydown", function(e) {
+    $(screen)
+    // Add tab index to ensure the canvas retains focus
+    .attr("tabindex", "0")
+    // Mouse down override to prevent default browser controls from appearing
+    .mousedown(function(){ $(this).focus(); return false; });
+
+    screen.addEventListener("keydown", function(e) {
         switch(e.keyCode) {
             case 37:
                 if (!_.has(downedKeys, e.keyCode))
@@ -54,30 +83,16 @@ function main(images) {
                     downedKeys[e.keyCode] = true;
                 }
                 break;
-            case 38:
-                if (!_.has(downedKeys, e.keyCode))
-                {
-                    velocity.dy(velocity.dy()+speed);
-                    downedKeys[e.keyCode] = true;
-                }
-                break;
             case 39:
                 if (!_.has(downedKeys, e.keyCode))
                 {
                     velocity.dx(velocity.dx()+speed);
-                    downedKeys[e.keyCode] = true;
-                }
-                break;
-            case 40:
-                if (!_.has(downedKeys, e.keyCode))
-                {
-                    velocity.dy(velocity.dy()-speed);
                     downedKeys[e.keyCode] = true;
                 }
                 break;
         }
     });
-    window.addEventListener("keyup", function(e) {
+    screen.addEventListener("keyup", function(e) {
         switch(e.keyCode) {
             case 37:
                 if (_.has(downedKeys, e.keyCode))
@@ -86,24 +101,10 @@ function main(images) {
                     delete downedKeys[e.keyCode];
                 }
                 break;
-            case 38:
-                if (_.has(downedKeys, e.keyCode))
-                {
-                    velocity.dy(velocity.dy()-speed);
-                    delete downedKeys[e.keyCode];
-                }
-                break;
             case 39:
                 if (_.has(downedKeys, e.keyCode))
                 {
                     velocity.dx(velocity.dx()-speed);
-                    delete downedKeys[e.keyCode];
-                }
-                break;
-            case 40:
-                if (_.has(downedKeys, e.keyCode))
-                {
-                    velocity.dy(velocity.dy()+speed);
                     delete downedKeys[e.keyCode];
                 }
                 break;
@@ -133,6 +134,7 @@ function addTile(world, image, x, y) {
     var renderable = new Renderable();
     position.x(x);
     position.y(y);
+    position.z(0);
     world.addComponent(entity, position);
     renderable.image(image);
     world.addComponent(entity, renderable);

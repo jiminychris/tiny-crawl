@@ -212,7 +212,6 @@ describe("World", function() {
             world.tick(0);
             world.removeComponent(e0, Health);
             DamageSystem.tick = function(world, aspects, dt) {
-                console.log(aspects);
                 _.size(aspects).should.equal(0);
             };
             world.tick(0);

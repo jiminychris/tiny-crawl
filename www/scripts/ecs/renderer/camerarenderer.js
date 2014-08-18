@@ -8,6 +8,7 @@ var _ = require("underscore");
 var CameraRenderer = Renderer("CameraRenderer", [Camera, Position], [Renderable, Position], function(viewports, renderables) {
     _.each(viewports, function(viewport) {
         var camera = viewport(Camera);
+        var bounds = camera.bounds();
         var screen = camera.screen();
         var zoom = camera.zoom();
         var viewportPosition = viewport(Position);
@@ -21,9 +22,31 @@ var CameraRenderer = Renderer("CameraRenderer", [Camera, Position], [Renderable,
             top: viewportPosition.y() + cameraHalfHeight,
             bottom: viewportPosition.y() - cameraHalfHeight
         };
+        var outOfBounds = {
+            left: bounds.left - viewportBox.left,
+            right: bounds.right - viewportBox.right,
+            top: bounds.top - viewportBox.top,
+            bottom: bounds.bottom - viewportBox.bottom
+        }
+        if (outOfBounds.left > 0) {
+            viewportBox.left += outOfBounds.left;
+            viewportBox.right += outOfBounds.left;
+        }
+        else if (outOfBounds.right < 0) {
+            viewportBox.left += outOfBounds.right;
+            viewportBox.right += outOfBounds.right;
+        }
+        if (outOfBounds.top < 0) {
+            viewportBox.top += outOfBounds.top;
+            viewportBox.bottom += outOfBounds.top;
+        }
+        else if (outOfBounds.bottom > 0) {
+            viewportBox.top += outOfBounds.bottom;
+            viewportBox.bottom += outOfBounds.bottom;
+        }
 
         ctx.fillRect(0, 0, screen.width, screen.height);
-        _.each(renderables, function(renderable) {
+        _.each(_.sortBy(renderables, function(renderable) { return renderable(Position).z(); }), function(renderable) {
             var position = renderable(Position);
             var image = renderable(Renderable).image();
 
