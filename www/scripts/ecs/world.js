@@ -10,6 +10,8 @@ function World() {
     this._killedEntityStack = [];
     this._activeEntities = [];
     this._entityAspectBits = [];
+    this._entityNameRegistry = {entityToName: {}, nameToEntity: {}};
+
     this._components = [];
     this._componentTypeRegistry = {};
     this._componentTypeBitRegistry = {};
@@ -57,6 +59,8 @@ World.prototype.createEntity = function() {
     var entity = this._entityIdStream();
     this._entityAspectBits[entity] = 0;
     this._activeEntities.push(entity);
+    if (arguments.length === 1)
+        this.registerEntityName(entity, arguments[0]);
     return entity;
 };
 
@@ -68,6 +72,7 @@ World.prototype.killEntity = function(entity) {
     }, this);
     for (var i=0; i<this._componentTypeCount; i++)
         this._components[i][entity] = null;
+    this.unregisterEntityName(entity);
 };
 
 World.prototype.addComponent = function(entity, component) {
@@ -88,6 +93,13 @@ World.prototype.fetchComponent = function(entity, componentConstructor) {
         return null;
     }
 };
+
+World.prototype.fetchEntityByName = function(name) {
+    var entity = this._entityNameRegistry.nameToEntity[name];
+    if (entity === undefined)
+        return null;
+    return entity;
+}
 
 World.prototype.removeComponent = function(entity, componentConstructor) {
     this._validateEntity(entity);
@@ -166,6 +178,17 @@ World.prototype.render = function() {
     _.each(this._renderers, function(renderer, i) {
         renderer.render(_.values(this._viewportAspects[i]), _.values(this._renderableAspects[i]));
     }, this);
+};
+
+World.prototype.registerEntityName = function(entity, name) {
+    this._entityNameRegistry.nameToEntity[name] = entity;
+    this._entityNameRegistry.entityToName[entity] = name;
+};
+
+World.prototype.unregisterEntityName = function(entity) {
+    var name = this._entityNameRegistry.entityToName[entity];
+    delete this._entityNameRegistry.nameToEntity[name];
+    delete this._entityNameRegistry.entityToName[entity];
 };
 
 World.prototype._updateAllAspects = function(entity) {

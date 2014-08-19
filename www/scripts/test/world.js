@@ -57,6 +57,19 @@ describe("World", function() {
             world.killEntity(e1);
             world.createEntity().should.equal(e1);
         });
+        it("should register given name", function() {
+            var world = new World();
+            var e0 = world.createEntity("avatar");
+            world.fetchEntityByName("avatar").should.equal(e0);
+        });
+    });
+    describe("#killEntity()", function() {
+        it("should unregister given name", function() {
+            var world = new World();
+            var e0 = world.createEntity("avatar");
+            world.killEntity(e0);
+            should.not.exist(world.fetchEntityByName("avatar"));
+        });
     });
     describe("#addComponent()", function() {
         it("should throw an exception when referencing an undefined entity", function() {
@@ -353,6 +366,50 @@ describe("World", function() {
             world.removeComponent(e2, Renderable);
 
             world.render();
+        });
+    });
+    describe("#registerEntityName()", function() {
+        it("should not throw exception when registering name", function() {
+            var world = new World();
+            var e0 = world.createEntity();
+            should.not.throw(function() {
+                world.registerEntityName(e0, "avatar");
+            }, Error);
+        });
+    });
+    describe("#unregisterEntityName()", function() {
+        it("should not throw exception when unregistering name", function() {
+            var world = new World();
+            var e0 = world.createEntity();
+            world.registerEntityName(e0, "avatar");
+            should.not.throw(function() {
+                world.unregisterEntityName(e0);
+            }, Error);
+        });
+    });
+    describe("#fetchEntityByName()", function() {
+        it("should not throw exception when fetching name", function() {
+            var world = new World();
+            should.not.throw(function() {
+                world.fetchEntityByName("avatar");
+            }, Error);
+        });
+        it("should return null for unregistered name", function() {
+            var world = new World();
+            should.not.exist(world.fetchEntityByName("avatar"));
+        });
+        it("should return null for killed entity", function() {
+            var world = new World();
+            var e0 = world.createEntity();
+            world.registerEntityName(e0, "avatar");
+            world.unregisterEntityName(e0);
+            should.not.exist(world.fetchEntityByName("avatar"));
+        });
+        it("should return correct entity ID", function() {
+            var world = new World();
+            var e0 = world.createEntity();
+            world.registerEntityName(e0, "avatar");
+            world.fetchEntityByName("avatar").should.equal(e0);
         });
     });
 });

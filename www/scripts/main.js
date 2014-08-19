@@ -3,6 +3,7 @@ var _ = require("underscore");
 var World = require("./ecs/world");
 var Position = require("./ecs/component/position");
 var Velocity = require("./ecs/component/velocity");
+var Input = require("./ecs/component/input");
 var MovementSprites = require("./ecs/component/movementsprites");
 var Animation = require("./ecs/component/animation");
 var Renderable = require("./ecs/component/renderable");
@@ -52,6 +53,99 @@ function flipped(canvas) {
     return result;
 };
 
+function Messages() {
+    return _.object(arguments, arguments);
+}
+var Intents = Messages("Stop", "WalkLeft", "WalkRight");
+
+var Keyboard = {
+    _listeners: [],
+    _send: function(message) {
+        _.each(Keyboard._listeners, function(listener) {
+            listener(message);
+        });
+    },
+    register: function(func) {
+        Keyboard._listeners.push(func);
+    },
+    attach: function(control) {
+        downedKeys = {};
+        var speed = 1.4;
+        control.attr("tabindex", 0);
+
+        control.keydown(function(e) {
+            switch(e.keyCode) {
+                case 37:
+                    if (!_.has(downedKeys, e.keyCode))
+                    {
+                        /*velocity.dx(velocity.dx()-speed);
+                        world.removeComponent(avatar, Animation);
+                        var animation = new Animation();
+                        animation.frames(movementSprites.left());
+                        animation.spf(.25);
+                        world.addComponent(avatar, animation);*/
+                        if (downedKeys[39]) {
+                            Keyboard._send(Intents.Stop);
+                        }
+                        else
+                            Keyboard._send(Intents.WalkLeft);
+                        downedKeys[e.keyCode] = true;
+                    }
+                    break;
+                case 39:
+                    if (!_.has(downedKeys, e.keyCode))
+                    {
+                        /*velocity.dx(velocity.dx()+speed);
+                        world.removeComponent(avatar, Animation);
+                        var animation = new Animation();
+                        animation.frames(movementSprites.right());
+                        animation.spf(.25);
+                        world.addComponent(avatar, animation);*/
+                        if (downedKeys[37]) {
+                            Keyboard._send(Intents.Stop);
+                        }
+                        else
+                            Keyboard._send(Intents.WalkRight);
+                        downedKeys[e.keyCode] = true;
+                    }
+                    break;
+            }
+        });
+        control.keyup(function(e) {
+            switch(e.keyCode) {
+                case 37:
+                    if (downedKeys[e.keyCode] === true)
+                    {
+                        /*world.removeComponent(avatar, Animation);
+                        renderable.image(images.maximStandLeft);
+                        velocity.dx(velocity.dx()+speed);*/
+                        if (downedKeys[39]) {
+                            Keyboard._send(Intents.WalkRight);
+                        }
+                        else
+                            Keyboard._send(Intents.Stop);
+                        delete downedKeys[e.keyCode];
+                    }
+                    break;
+                case 39:
+                    if (downedKeys[e.keyCode] === true)
+                    {
+                        /*world.removeComponent(avatar, Animation);
+                        renderable.image(images.maximStandRight);
+                        velocity.dx(velocity.dx()-speed);*/
+                        if (downedKeys[37]) {
+                            Keyboard._send(Intents.WalkLeft);
+                        }
+                        else
+                            Keyboard._send(Intents.Stop);
+                        delete downedKeys[e.keyCode];
+                    }
+                    break;
+            }
+        });
+    }
+}
+
 function main(images) {
     var zoom = 10;
     var screen = newCanvas(86*zoom, 21*zoom);
@@ -80,75 +174,19 @@ function main(images) {
     var movementSprites = new MovementSprites();
     movementSprites.right(images.maximWalkRight);
     movementSprites.left(images.maximWalkLeft);
+    var input = new Input();
+    input.source(Keyboard);
     world.addComponent(avatar, position);
     world.addComponent(avatar, velocity);
     world.addComponent(avatar, camera);
     world.addComponent(avatar, renderable);
     world.addComponent(avatar, movementSprites);
+    world.addComponent(avatar, input);
     for (var i=0; i<8; i++)
         addSlab(world, images.slab, (12+i*24)*Settings.metersPerPixel(), 10*Settings.metersPerPixel());
 
-
-    function addEventListeners(control) {
-        downedKeys = {};
-        var speed = 1.4;
-        control.attr("tabindex", 0);
-
-        control.keydown(function(e) {
-            switch(e.keyCode) {
-                case 37:
-                    if (!_.has(downedKeys, e.keyCode))
-                    {
-                        velocity.dx(velocity.dx()-speed);
-                        world.removeComponent(avatar, Animation);
-                        var animation = new Animation();
-                        animation.frames(movementSprites.left());
-                        animation.spf(.25);
-                        world.addComponent(avatar, animation);
-                        downedKeys[e.keyCode] = true;
-                    }
-                    break;
-                case 39:
-                    if (!_.has(downedKeys, e.keyCode))
-                    {
-                        velocity.dx(velocity.dx()+speed);
-                        world.removeComponent(avatar, Animation);
-                        var animation = new Animation();
-                        animation.frames(movementSprites.right());
-                        animation.spf(.25);
-                        world.addComponent(avatar, animation);
-                        downedKeys[e.keyCode] = true;
-                    }
-                    break;
-            }
-        });
-        control.keyup(function(e) {
-            switch(e.keyCode) {
-                case 37:
-                    if (downedKeys[e.keyCode] === true)
-                    {
-                        world.removeComponent(avatar, Animation);
-                        renderable.image(images.maximStandLeft);
-                        velocity.dx(velocity.dx()+speed);
-                        delete downedKeys[e.keyCode];
-                    }
-                    break;
-                case 39:
-                    if (downedKeys[e.keyCode] === true)
-                    {
-                        world.removeComponent(avatar, Animation);
-                        renderable.image(images.maximStandRight);
-                        velocity.dx(velocity.dx()-speed);
-                        delete downedKeys[e.keyCode];
-                    }
-                    break;
-            }
-        });
-    }
-
-
     $(document).ready(function() {
-        addEventListeners($("div#game-container").append(screen));
+        Keyboard.attach($("div#game-container").append(screen));
 
         (function tick(lastTime)
         {
