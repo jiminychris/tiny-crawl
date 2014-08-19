@@ -58,13 +58,12 @@ var CameraRenderer = Renderer("CameraRenderer", [Camera, Position], [Renderable,
                 top: position.y() + renderableHalfHeight,
                 bottom: position.y() - renderableHalfHeight
             };
-            if (collide(viewportBox, renderableBox)) {
+            if (collide(viewportBox, renderableBox))
                 ctx.drawImage(image,
-                    (renderableBox.left - viewportBox.left)*Settings.pixelsPerMeter() * zoom,
-                    (viewportBox.top - renderableBox.top)*Settings.pixelsPerMeter() * zoom,
+                    Math.round((renderableBox.left - viewportBox.left).toFixed(3)*Settings.pixelsPerMeter()) * zoom,
+                    Math.round((viewportBox.top - renderableBox.top).toFixed(3)*Settings.pixelsPerMeter()) * zoom,
                     image.width * zoom,
                     image.height * zoom);
-            }
         });
     });
 });

@@ -21,3 +21,6 @@ body * {
     top: 0px;
     left: 0px;
 }*/
+*:focus {
+    outline: none;
+}
