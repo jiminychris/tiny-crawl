@@ -4,3 +4,6 @@
 node_modules
 www/bundle.js
 _site
+Gemfile
+Gemfile.lock
+_config.yml
