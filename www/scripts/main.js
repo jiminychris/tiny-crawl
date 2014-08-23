@@ -34,6 +34,8 @@ function preload() {
 }
 
 var player;
+var cursors;
+var orientation = "right";
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -42,12 +44,35 @@ function create() {
 
     game.physics.arcade.enable(player);
 
-    player.animations.add("right", [1, 2, 3, 4], 10, true);
-    player.anchor.setTo(.5, .5);
+    player.animations.add("left", [1, 2, 3, 4], 4, true);
+    player.animations.add("right", [6, 7, 8, 9], 4, true);
 }
 
 function update() {
+    cursors = game.input.keyboard.createCursorKeys();
 
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown && !cursors.right.isDown)
+    {
+        player.body.velocity.x = -10;
+        orientation = "left";
+        player.animations.play("left");
+    }
+    else if (cursors.right.isDown && !cursors.left.isDown)
+    {
+        player.body.velocity.x = 10;
+        orientation = "right";
+        player.animations.play("right");
+    }
+    else
+    {
+        player.animations.stop();
+        if (orientation == "left")
+            player.frame = 0;
+        else
+            player.frame = 5;
+    }
 }
 
 function render() {
