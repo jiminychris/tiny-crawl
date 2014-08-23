@@ -1,11 +1,29 @@
 {
-    "name": "tiny-crawl",
-    "version": "0.0.1",
-    "description": "A fun, tiny role-playing game",
-    "license": "MIT",
-    "dependencies": {
-        "jquery": "2.1.1",
-        "underscore": "1.6.0",
-        "chai":  "1.9.1"
+  "name": "tiny-crawl",
+  "version": "0.0.0",
+  "main": "./www/scripts/main.js",
+  "description": "A fun, tiny role-playing game",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "2.1.1",
+    "underscore": "1.6.0"
+  },
+  "browser": {
+    "phaser": "./bower_components/phaser-official/build/custom/phaser-arcade-physics.min.js"
+  },
+  "browserify-shim": {
+    "phaser": {
+      "exports": "Phaser"
     }
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "devDependencies": {
+    "browserify": "^4.1.5",
+    "browserify-shim": "^3.6.0",
+    "chai": "^1.9.1"
+  }
 }
