@@ -1,10 +1,11 @@
 var Phaser = require("phaser");
+var Settings = require("./settings");
 
-var game = new Phaser.Game(88, 31, Phaser.CANVAS, "",
+var game = new Phaser.Game(Settings.width(), Settings.height(), Phaser.CANVAS, "",
     {init: init, preload: preload, create: create,
         update: update, render: render});
 
-var pixel = { scale: 10, canvas: null, context: null, width: 0, height: 0 };
+var pixel = { scale: Settings.scale(), canvas: null, context: null, width: 0, height: 0 };
 
 function init() {
  
@@ -30,54 +31,104 @@ function init() {
 }
 
 function preload() {
-    game.load.spritesheet("maxim", "images/maxim.png", 15, 18)
+    game.load.spritesheet("maxim", "images/maxim.png", 15, 18);
+    game.load.image("dungeon_tile", "images/dungeon_tile.png");
+    game.load.image("floor_tile", "images/floor_tile.png");
+    game.load.image("border", "images/border.png");
+    game.load.image("menu_background", "images/menu_background.png");
+    game.load.image("status_bar", "images/status_bar.png");
+    game.load.image("health_bar", "images/health_bar.png");
+    game.load.image("magic_bar", "images/magic_bar.png");
 }
 
-var player;
+var avatar;
 var cursors;
 var orientation = "right";
+var health = { max: 100, current: 100 };
+var health_bar;
+var magic_bar;
 
 function create() {
+    game.world.setBounds(0, 0, 240, Settings.height());
+
+    game.add.tileSprite(Settings.borderThickness(), 8, 240, Settings.height()-15, "dungeon_tile");
+
+    game.add.tileSprite(Settings.borderThickness(), Settings.height()-7, 240, 6, "floor_tile");
+
+    avatar = game.add.sprite(8, Settings.height()-2, "maxim");
+
+    addHud(0, 0, "border");
+    addHud(1, 1, "menu_background");
+    addHud(2, 2, "status_bar");
+    health_bar = addHud(3, 3, "health_bar");
+    magic_bar = addHud(3, 5, "magic_bar");
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    player = game.add.sprite(10, 10, "maxim");
-
-    game.physics.arcade.enable(player);
-
-    player.animations.add("left", [1, 2, 3, 4], 4, true);
-    player.animations.add("right", [6, 7, 8, 9], 4, true);
-}
-
-function update() {
     cursors = game.input.keyboard.createCursorKeys();
 
-    player.body.velocity.x = 0;
+    game.physics.arcade.enable(avatar);
+
+    avatar.animations.add("left", [1, 2, 3, 4], 4, true);
+    avatar.animations.add("right", [6, 7, 8, 9], 4, true);
+    avatar.anchor.setTo(.5, 1);
+
+    game.camera.follow(avatar);
+    game.camera.deadzone = new Phaser.Rectangle(Settings.width()/2-5, 0, 10, Settings.height);
+}
+
+function update(game) {
+    var dt = game.time.physicsElapsed;
+
+    avatar.body.velocity.x = 0;
+    damage(5*dt);
+    health_bar.scale.x = health.current/health.max;
 
     if (cursors.left.isDown && !cursors.right.isDown)
     {
-        player.body.velocity.x = -10;
+        avatar.body.velocity.x = -14;
         orientation = "left";
-        player.animations.play("left");
+        avatar.animations.play("left");
     }
     else if (cursors.right.isDown && !cursors.left.isDown)
     {
-        player.body.velocity.x = 10;
+        avatar.body.velocity.x = 14;
         orientation = "right";
-        player.animations.play("right");
+        avatar.animations.play("right");
     }
     else
     {
-        player.animations.stop();
+        avatar.animations.stop();
         if (orientation == "left")
-            player.frame = 0;
+            avatar.frame = 0;
         else
-            player.frame = 5;
+            avatar.frame = 5;
     }
 }
 
 function render() {
     // Every loop we need to render the un-scaled game canvas to the displayed
     // scaled canvas:
+
     pixel.context.drawImage(game.canvas, 0, 0,
         game.width, game.height, 0, 0, pixel.width, pixel.height);
+}
+
+function addHud(x, y, key) {
+    var hud = game.add.sprite(0, 0, key);
+    hud.fixedToCamera = true;
+    hud.cameraOffset.setTo(x, y);
+    return hud;
+}
+
+function damage(amount) {
+    health.current -= amount;
+    if (health.current < 0)
+        health.current = 0;
+}
+
+function heal(amount) {
+    health.current += amount;
+    if (health.current > health.max)
+        health.current = health.max;
 }
