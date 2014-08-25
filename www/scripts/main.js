@@ -1,5 +1,6 @@
 var Phaser = require("phaser");
 var Settings = require("./settings");
+var $ = require("jquery");
 
 var game = new Phaser.Game(Settings.width(), Settings.height(), Phaser.CANVAS, "",
     {init: init, preload: preload, create: create,
@@ -8,7 +9,10 @@ var game = new Phaser.Game(Settings.width(), Settings.height(), Phaser.CANVAS, "
 var pixel = { scale: Settings.scale(), canvas: null, context: null, width: 0, height: 0 };
 
 function init() {
- 
+    var container = $("#game-container").height(Settings.height()*Settings.scale())
+        .width(Settings.width()*Settings.scale())
+        .css("border", (Settings.borderThickness()*Settings.scale()).toString() + "px solid black");
+
     //  Hide the un-scaled game canvas
     game.canvas.style['display'] = 'none';
  
@@ -19,7 +23,7 @@ function init() {
     pixel.context = pixel.canvas.getContext('2d');
  
     //  Add the scaled canvas to the DOM
-    Phaser.Canvas.addToDOM(pixel.canvas);
+    Phaser.Canvas.addToDOM(pixel.canvas, "game-container");
  
     //  Disable smoothing on the scaled canvas
     Phaser.Canvas.setSmoothingEnabled(pixel.context, false);
@@ -31,14 +35,13 @@ function init() {
 }
 
 function preload() {
-    game.load.spritesheet("maxim", "images/maxim.png", 15, 18);
-    game.load.image("dungeon_tile", "images/dungeon_tile.png");
-    game.load.image("floor_tile", "images/floor_tile.png");
-    game.load.image("border", "images/border.png");
-    game.load.image("menu_background", "images/menu_background.png");
-    game.load.image("status_bar", "images/status_bar.png");
-    game.load.image("health_bar", "images/health_bar.png");
-    game.load.image("magic_bar", "images/magic_bar.png");
+    game.load.spritesheet("maxim", "assets/images/maxim.png", 15, 18);
+    game.load.image("menu_background", "assets/images/menu_background.png");
+    game.load.image("status_bar", "assets/images/status_bar.png");
+    game.load.image("health_bar", "assets/images/health_bar.png");
+    game.load.image("magic_bar", "assets/images/magic_bar.png");
+    game.load.image("dungeon", "assets/images/tileset.png");
+    game.load.tilemap("map", "assets/maps/map.json", null, Phaser.Tilemap.TILED_JSON);
 }
 
 var avatar;
@@ -51,17 +54,17 @@ var magic_bar;
 function create() {
     game.world.setBounds(0, 0, 240, Settings.height());
 
-    game.add.tileSprite(Settings.borderThickness(), 8, 240, Settings.height()-15, "dungeon_tile");
+    map = game.add.tilemap("map");
+    map.addTilesetImage("dungeon");
+    layer = map.createLayer("Tile Layer 1");
+    layer.resizeWorld();
 
-    game.add.tileSprite(Settings.borderThickness(), Settings.height()-7, 240, 6, "floor_tile");
+    avatar = game.add.sprite(8, Settings.height(), "maxim");
 
-    avatar = game.add.sprite(8, Settings.height()-2, "maxim");
-
-    addHud(0, 0, "border");
-    addHud(1, 1, "menu_background");
-    addHud(2, 2, "status_bar");
-    health_bar = addHud(3, 3, "health_bar");
-    magic_bar = addHud(3, 5, "magic_bar");
+    addHud(0, 0, "menu_background");
+    addHud(1, 1, "status_bar");
+    health_bar = addHud(2, 2, "health_bar");
+    magic_bar = addHud(2, 4, "magic_bar");
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -74,7 +77,7 @@ function create() {
     avatar.anchor.setTo(.5, 1);
 
     game.camera.follow(avatar);
-    game.camera.deadzone = new Phaser.Rectangle(Settings.width()/2-5, 0, 10, Settings.height);
+    game.camera.deadzone = new Phaser.Rectangle(Settings.width()/2-5, Settings.height()-1, 10, 0);
 }
 
 function update(game) {
@@ -104,6 +107,7 @@ function update(game) {
         else
             avatar.frame = 5;
     }
+    avatar.x = Number(avatar.x.toFixed(3));
 }
 
 function render() {

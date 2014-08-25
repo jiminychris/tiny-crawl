@@ -1,5 +1,5 @@
-var width = 88;
-var height = 31;
+var width = 86;
+var height = 29;
 var borderThickness = 1;
 var scale = 10;
 var pixelsPerMeter = 10;
