@@ -35,12 +35,18 @@ function init() {
 }
 
 function preload() {
+    $.ajax("assets/maps/map.json", {
+        success: function(data) {
+            console.log(data);
+        }
+    });
     game.load.spritesheet("maxim", "assets/images/maxim.png", 15, 18);
     game.load.image("menu_background", "assets/images/menu_background.png");
     game.load.image("status_bar", "assets/images/status_bar.png");
     game.load.image("health_bar", "assets/images/health_bar.png");
     game.load.image("magic_bar", "assets/images/magic_bar.png");
     game.load.image("dungeon", "assets/images/tileset.png");
+    game.load.image("chest", "assets/images/chest.png");
     game.load.tilemap("map", "assets/maps/map.json", null, Phaser.Tilemap.TILED_JSON);
 }
 
@@ -54,10 +60,14 @@ var magic_bar;
 function create() {
     game.world.setBounds(0, 0, 240, Settings.height());
 
-    map = game.add.tilemap("map");
+    var map = game.add.tilemap("map");
     map.addTilesetImage("dungeon");
-    layer = map.createLayer("Tile Layer 1");
+    map.addTilesetImage("chest");
+    var layer = map.createLayer("Tile Layer 1");
     layer.resizeWorld();
+    
+    map.createFromObjects("Object Layer 1", 9, "chest");
+
 
     avatar = game.add.sprite(8, Settings.height(), "maxim");
 
