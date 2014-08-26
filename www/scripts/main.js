@@ -35,11 +35,6 @@ function init() {
 }
 
 function preload() {
-    $.ajax("assets/maps/map.json", {
-        success: function(data) {
-            console.log(data);
-        }
-    });
     game.load.spritesheet("maxim", "assets/images/maxim.png", 15, 18);
     game.load.image("menu_background", "assets/images/menu_background.png");
     game.load.image("status_bar", "assets/images/status_bar.png");
@@ -66,7 +61,7 @@ function create() {
     var layer = map.createLayer("Tile Layer 1");
     layer.resizeWorld();
     
-    map.createFromObjects("Object Layer 1", 9, "chest");
+    map.createFromObjects("Object Layer 1", 9, "chest", 0, true, false);
 
 
     avatar = game.add.sprite(8, Settings.height(), "maxim");
