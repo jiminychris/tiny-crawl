@@ -1,5 +1,6 @@
 var Phaser = require("phaser");
 var Settings = require("./settings");
+var Avatar = require("./avatar");
 var $ = require("jquery");
 
 var game = new Phaser.Game(Settings.width(), Settings.height(), Phaser.CANVAS, "",
@@ -46,8 +47,6 @@ function preload() {
 }
 
 var avatar;
-var cursors;
-var orientation = "right";
 var health = { max: 100, current: 100 };
 var health_bar;
 var magic_bar;
@@ -64,16 +63,18 @@ function create() {
     map.createFromObjects("Object Layer 1", 9, "chest", 0, true, false);
 
 
-    avatar = game.add.sprite(8, Settings.height(), "maxim");
+    avatar = game.add.existing(new Avatar(game, 8, Settings.height(), "maxim", 0));
 
     addHud(0, 0, "menu_background");
     addHud(1, 1, "status_bar");
     health_bar = addHud(2, 2, "health_bar");
+    health_bar.max_width = health_bar.width;
+    health_bar.crop(new Phaser.Rectangle(0, 0, health_bar.width, health_bar.height));
     magic_bar = addHud(2, 4, "magic_bar");
+    magic_bar.max_width = magic_bar.width;
+    health_bar.crop(new Phaser.Rectangle(0, 0, magic_bar.width, magic_bar.height));
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    cursors = game.input.keyboard.createCursorKeys();
 
     game.physics.arcade.enable(avatar);
 
@@ -86,33 +87,8 @@ function create() {
 }
 
 function update(game) {
-    var dt = game.time.physicsElapsed;
-
-    avatar.body.velocity.x = 0;
-    damage(5*dt);
-    health_bar.scale.x = health.current/health.max;
-
-    if (cursors.left.isDown && !cursors.right.isDown)
-    {
-        avatar.body.velocity.x = -14;
-        orientation = "left";
-        avatar.animations.play("left");
-    }
-    else if (cursors.right.isDown && !cursors.left.isDown)
-    {
-        avatar.body.velocity.x = 14;
-        orientation = "right";
-        avatar.animations.play("right");
-    }
-    else
-    {
-        avatar.animations.stop();
-        if (orientation == "left")
-            avatar.frame = 0;
-        else
-            avatar.frame = 5;
-    }
-    avatar.x = Number(avatar.x.toFixed(3));
+    health_bar.cropRect.width = Math.ceil(health_bar.max_width*avatar.health.current/avatar.health.max);
+    health_bar.updateCrop();
 }
 
 function render() {
@@ -128,16 +104,4 @@ function addHud(x, y, key) {
     hud.fixedToCamera = true;
     hud.cameraOffset.setTo(x, y);
     return hud;
-}
-
-function damage(amount) {
-    health.current -= amount;
-    if (health.current < 0)
-        health.current = 0;
-}
-
-function heal(amount) {
-    health.current += amount;
-    if (health.current > health.max)
-        health.current = health.max;
 }
