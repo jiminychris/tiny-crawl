@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="24" height="4" tilewidth="8" tileheight="8">
+ <tileset firstgid="1" name="dungeon" tilewidth="8" tileheight="8">
+  <image source="../Git/tiny-crawl/www/assets/images/tileset.png" width="16" height="16"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="24" height="4">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzFODETEDMDMQuN2ABTYACR
+  </data>
+ </layer>
+</map>
