@@ -1,6 +1,7 @@
 var Phaser = require("phaser");
 var Settings = require("./settings");
 var Avatar = require("./avatar");
+var Chest = require("./chest");
 var $ = require("jquery");
 
 var game = new Phaser.Game(Settings.width(), Settings.height(), Phaser.CANVAS, "",
@@ -47,9 +48,9 @@ function preload() {
 }
 
 var avatar;
-var health = { max: 100, current: 100 };
 var health_bar;
 var magic_bar;
+var chests;
 
 function create() {
     game.world.setBounds(0, 0, 240, Settings.height());
@@ -59,11 +60,13 @@ function create() {
     map.addTilesetImage("chest");
     var layer = map.createLayer("Tile Layer 1");
     layer.resizeWorld();
+
+    chests = game.add.group();
+    chests.enableBody = true;
     
-    map.createFromObjects("Object Layer 1", 9, "chest", 0, true, false);
+    map.createFromObjects("Object Layer 1", 5, "chest", 0, true, false, chests, Chest);
 
-
-    avatar = game.add.existing(new Avatar(game, 8, Settings.height(), "maxim", 0));
+    avatar = new Avatar(game, 8, Settings.height(), "maxim", 0);
 
     addHud(0, 0, "menu_background");
     addHud(1, 1, "status_bar");
@@ -87,6 +90,9 @@ function create() {
 }
 
 function update(game) {
+    game.physics.arcade.overlap(avatar, chests, function(avatar, chest) {
+        avatar.interact(chest);
+    });
     health_bar.cropRect.width = Math.ceil(health_bar.max_width*avatar.health.current/avatar.health.max);
     health_bar.updateCrop();
 }

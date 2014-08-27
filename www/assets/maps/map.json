@@ -16,16 +16,14 @@
          "name":"Object Layer 1",
          "objects":[
                 {
-                 "gid":9,
-                 "height":0,
+                 "gid":5,
                  "name":"",
                  "properties":
                     {
-
+                     "contents":"sword"
                     },
                  "type":"",
                  "visible":true,
-                 "width":0,
                  "x":116,
                  "y":29
                 }],
@@ -59,7 +57,7 @@
          "tilewidth":8
         }, 
         {
-         "firstgid":9,
+         "firstgid":5,
          "image":"..\/images\/chest.png",
          "imageheight":12,
          "imagewidth":15,

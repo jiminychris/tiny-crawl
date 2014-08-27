@@ -2,16 +2,15 @@ var Phaser = require("phaser");
 
 var Avatar = function (game, x, y, key, frame) {
 
-    //  We call the Phaser.Sprite passing in the game reference
-    //  We're giving it a random X/Y position here, just for the sake of this demo - you could also pass the x/y in the constructor
     Phaser.Sprite.call(this, game, x, y, key, frame);
     this.health = { max: 10, current: 10 };
+    this.inventory = [];
     this.orientation = "right";
     this.cursors = game.input.keyboard.createCursorKeys();
 
     this.anchor.setTo(0.5, 1);
 
-    //game.add.existing(this);
+    game.add.existing(this);
 
 };
 
@@ -21,7 +20,6 @@ Avatar.prototype.constructor = Avatar;
 Avatar.prototype.update = function() {
     var dt = this.game.time.physicsElapsed;
 
-    //  Automatically called by World.update
     this.damage(1*dt);
 
 
@@ -61,6 +59,14 @@ Avatar.prototype.heal = function(amount) {
     this.health.current += amount;
     if (this.health.current > this.health.max)
         this.health.current = this.health.max;
+}
+
+Avatar.prototype.interact = function(chest) {
+    if (this.game.input.keyboard.isDown(Phaser.Keyboard.Z) && chest.contents !== null)
+    {
+        this.inventory.push(chest.contents);
+        chest.contents = null;
+    }
 }
 
 module.exports = Avatar;
