@@ -1,16 +1,21 @@
 var Phaser = require("phaser");
+var Orientation = require("./orientation");
 
 var Avatar = function (game, x, y, key, frame) {
 
     Phaser.Sprite.call(this, game, x, y, key, frame);
     this.health = { max: 10, current: 10 };
     this.inventory = [];
-    this.orientation = "right";
+    this.orientation = Orientation.Right;
     this.cursors = game.input.keyboard.createCursorKeys();
 
-    this.anchor.setTo(0.5, 1);
-
     game.add.existing(this);
+
+    game.physics.arcade.enable(this);
+
+    this.animations.add(Orientation.Left, [1, 2, 3, 4], 4, true);
+    this.animations.add(Orientation.Right, [6, 7, 8, 9], 4, true);
+    this.anchor.setTo(.5, 1);
 
 };
 
@@ -28,19 +33,19 @@ Avatar.prototype.update = function() {
     if (this.cursors.left.isDown && !this.cursors.right.isDown)
     {
         this.body.velocity.x = -14;
-        this.orientation = "left";
-        this.animations.play("left");
+        this.orientation = Orientation.Left;
+        this.animations.play(Orientation.Left);
     }
     else if (this.cursors.right.isDown && !this.cursors.left.isDown)
     {
         this.body.velocity.x = 14;
-        this.orientation = "right";
-        this.animations.play("right");
+        this.orientation = Orientation.Right;
+        this.animations.play(Orientation.Right);
     }
     else
     {
         this.animations.stop();
-        if (this.orientation == "left")
+        if (this.orientation === Orientation.Left)
             this.frame = 0;
         else
             this.frame = 5;
@@ -64,8 +69,7 @@ Avatar.prototype.heal = function(amount) {
 Avatar.prototype.interact = function(chest) {
     if (this.game.input.keyboard.isDown(Phaser.Keyboard.Z) && chest.contents !== null)
     {
-        this.inventory.push(chest.contents);
-        chest.contents = null;
+        this.inventory.push(chest.open());
     }
 }
 

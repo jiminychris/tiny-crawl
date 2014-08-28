@@ -38,12 +38,12 @@ function init() {
 
 function preload() {
     game.load.spritesheet("maxim", "assets/images/maxim.png", 15, 18);
+    game.load.spritesheet("chest", "assets/images/chest.png", 15, 14);
     game.load.image("menu_background", "assets/images/menu_background.png");
     game.load.image("status_bar", "assets/images/status_bar.png");
     game.load.image("health_bar", "assets/images/health_bar.png");
     game.load.image("magic_bar", "assets/images/magic_bar.png");
     game.load.image("dungeon", "assets/images/tileset.png");
-    game.load.image("chest", "assets/images/chest.png");
     game.load.tilemap("map", "assets/maps/map.json", null, Phaser.Tilemap.TILED_JSON);
 }
 
@@ -78,12 +78,6 @@ function create() {
     health_bar.crop(new Phaser.Rectangle(0, 0, magic_bar.width, magic_bar.height));
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    game.physics.arcade.enable(avatar);
-
-    avatar.animations.add("left", [1, 2, 3, 4], 4, true);
-    avatar.animations.add("right", [6, 7, 8, 9], 4, true);
-    avatar.anchor.setTo(.5, 1);
 
     game.camera.follow(avatar);
     game.camera.deadzone = new Phaser.Rectangle(Settings.width()/2-5, Settings.height()-1, 10, 0);

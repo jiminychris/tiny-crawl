@@ -12,4 +12,11 @@ var Chest = function (game, x, y, key, frame) {
 Chest.prototype = Object.create(Phaser.Sprite.prototype);
 Chest.prototype.constructor = Chest;
 
+Chest.prototype.open = function() {
+    var contents = this.contents;
+    this.frame = 1;
+    this.contents = null;
+    return contents;
+};
+
 module.exports = Chest;
