@@ -17,6 +17,7 @@
          "objects":[
                 {
                  "gid":5,
+                 "height":0,
                  "name":"",
                  "properties":
                     {
@@ -24,6 +25,7 @@
                     },
                  "type":"",
                  "visible":true,
+                 "width":0,
                  "x":116,
                  "y":29
                 }],
@@ -59,8 +61,8 @@
         {
          "firstgid":5,
          "image":"..\/images\/chest.png",
-         "imageheight":12,
-         "imagewidth":15,
+         "imageheight":14,
+         "imagewidth":30,
          "margin":0,
          "name":"chest",
          "properties":
@@ -68,7 +70,7 @@
 
             },
          "spacing":0,
-         "tileheight":12,
+         "tileheight":14,
          "tilewidth":15
         }],
  "tilewidth":8,

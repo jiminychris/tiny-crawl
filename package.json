@@ -9,7 +9,7 @@
     "underscore": "1.6.0"
   },
   "browser": {
-    "phaser": "./bower_components/phaser-official/build/custom/phaser-arcade-physics.min.js"
+    "phaser": "./www/scripts/lib/phaser-arcade-physics.min.js"
   },
   "browserify-shim": {
     "phaser": {
