@@ -13,7 +13,6 @@ var PlayState = function(game) {
 PlayState.prototype = {
     create: create,
     update: update,
-    render: render,
     addHud: addHud
 }
 
@@ -49,16 +48,11 @@ function create() {
 }
 
 function update() {
-    console.log(this.avatar.x, this.chests.children[0].x);
     this.physics.arcade.overlap(this.avatar, this.chests, function(avatar, chest) {
         avatar.interact(chest);
     });
     this.health_bar.cropRect.width = Math.ceil(this.health_bar.max_width*this.avatar.health.current/this.avatar.health.max);
     this.health_bar.updateCrop();
-}
-
-function render() {
-    this.game.pixel.render(this.game);
 }
 
 function addHud(x, y, key) {

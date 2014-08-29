@@ -6,8 +6,7 @@ var PreloadState = function(game) {
 
 PreloadState.prototype = {
     preload: preload,
-    create: create,
-    render: render
+    create: create
 }
 
 function preload() {
@@ -23,10 +22,6 @@ function preload() {
 
 function create() {
     this.state.start("Play");
-}
-
-function render() {
-    this.game.pixel.render(this.game);
 }
 
 module.exports = PreloadState;
