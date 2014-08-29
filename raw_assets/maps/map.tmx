@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="24" height="4" tilewidth="8" tileheight="8">
+ <tileset firstgid="1" name="dungeon" tilewidth="8" tileheight="8">
+  <image source="../../www/assets/images/tileset.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="5" name="chest" tilewidth="15" tileheight="14">
+  <image source="../../www/assets/images/chest.png" width="30" height="14"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="24" height="4">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzFODETEDMDMQuN2ABTYACR
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="24" height="4">
+  <object gid="5" x="116" y="29">
+   <properties>
+    <property name="contents" value="sword"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
