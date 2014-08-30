@@ -19,10 +19,10 @@ function init() {
 }
 
 function create() {
-    var container = $(this.game.parent).height(Settings.height()*Settings.scale())
+    /*var container = $(this.game.parent).height(Settings.height()*Settings.scale())
         .width(Settings.width()*Settings.scale())
-        .css("border", (Settings.borderThickness()*Settings.scale()).toString() + "px solid black");
-    this.game.plugins.add(Phaser.Plugin.Embiggen, Settings.scale());
+        .css("border", (Settings.borderThickness()*Settings.scale()).toString() + "px solid black");*/
+    this.game.plugins.add(Phaser.Plugin.Embiggen, Math.floor(window.innerWidth/Settings.width()));
 
     this.state.add("Preload", PreloadState);
     this.state.add("Play", PlayState);

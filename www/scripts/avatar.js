@@ -8,6 +8,7 @@ var Avatar = function (game, x, y, key, frame) {
     this.inventory = [];
     this.orientation = Orientation.Right;
     this.cursors = game.input.keyboard.createCursorKeys();
+    this.touch = false;
 
     game.add.existing(this);
 
@@ -27,6 +28,24 @@ Avatar.prototype.update = function() {
 
     this.damage(1*dt);
 
+    var pointer = this.game.input.pointer1;
+    if (pointer.isDown)
+    {
+        this.touch = true;
+        var x = pointer.x / this.game.width;
+        var y = pointer.y / this.game.height;
+        this.cursors.left.isDown = false;
+        this.cursors.right.isDown = false;
+        if (x < .4)
+            this.cursors.left.isDown = true;
+        else if (x > .6)
+            this.cursors.right.isDown = true;
+    }
+    else if (this.touch)
+    {
+        this.cursors.left.isDown = true;
+        this.cursors.right.isDown = true;
+    }
 
     this.body.velocity.x = 0;
 
