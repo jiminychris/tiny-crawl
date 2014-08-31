@@ -1,36 +1,47 @@
 var Phaser = require("phaser");
-var Settings = require("./settings");
-var Avatar = require("./avatar");
-var Chest = require("./chest");
+var Avatar = require("../avatar");
+var Chest = require("../chest");
+var _ = require("underscore");
 
-var PlayState = function(game) {
+var Play = function(game) {
     this.avatar = null;
     this.health_bar = null;
     this.magic_bar = null;
     this.chests = null;
+    this.memento = null;
 };
 
-PlayState.prototype = {
+Play.prototype = {
+    init: init,
     create: create,
     update: update,
     addHud: addHud
 }
 
+function init(memento) {
+    this.memento = memento === undefined ? null : memento;
+}
+
 function create() {
     var game = this.game;
 
-    var map = game.add.tilemap("map");
-    map.addTilesetImage("dungeon");
-    map.addTilesetImage("chest");
-    var layer = map.createLayer("Tile Layer 1");
-    layer.resizeWorld();
+    if (this.memento === null)
+    {
+        var map = game.add.tilemap("map");
+        map.addTilesetImage("dungeon");
+        map.addTilesetImage("chest");
+        var layer = map.createLayer("Tile Layer 1");
+        layer.resizeWorld();
 
-    this.chests = game.add.group();
-    this.chests.enableBody = true;
-    
-    map.createFromObjects("Object Layer 1", 5, "chest", 0, true, false, this.chests, Chest);
+        this.chests = game.add.group();
+        this.chests.enableBody = true;
+        
+        map.createFromObjects("Object Layer 1", 5, "chest", 0, true, false, this.chests, Chest);
 
-    this.avatar = new Avatar(game, 8, Settings.height(), "maxim", 0);
+        this.avatar = new Avatar(game, 8, game.height, "maxim", 0);
+        console.log(this.world);
+    }
+
 
     this.addHud(0, 0, "menu_background");
     this.addHud(1, 1, "status_bar");
@@ -44,7 +55,7 @@ function create() {
     this.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.camera.follow(this.avatar);
-    this.camera.deadzone = new Phaser.Rectangle(Settings.width()/2-5, Settings.height()-1, 10, 0);
+    this.camera.deadzone = new Phaser.Rectangle(game.width/2-5, game.height-1, 10, 0);
 }
 
 function update() {
@@ -62,4 +73,4 @@ function addHud(x, y, key) {
     return hud;
 }
 
-module.exports = PlayState;
+module.exports = Play;

@@ -15,7 +15,7 @@
         {
             "path": "www/scripts",
             "name": "Scripts",
-            "file_include_patterns": ["*.js"] 
+            "file_include_patterns": ["*.js"]
         },
         {
             "path": "."

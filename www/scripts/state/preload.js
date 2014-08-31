@@ -1,10 +1,9 @@
 var Phaser = require("phaser");
-var Settings = require("./settings");
 
-var PreloadState = function(game) {
+var Preload = function(game) {
 };
 
-PreloadState.prototype = {
+Preload.prototype = {
     preload: preload,
     create: create
 }
@@ -24,4 +23,4 @@ function create() {
     this.state.start("Play");
 }
 
-module.exports = PreloadState;
+module.exports = Preload;

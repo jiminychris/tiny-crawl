@@ -24,6 +24,7 @@ Avatar.prototype = Object.create(Phaser.Sprite.prototype);
 Avatar.prototype.constructor = Avatar;
 
 Avatar.prototype.update = function() {
+
     var dt = this.game.time.physicsElapsed;
 
     this.damage(1*dt);
