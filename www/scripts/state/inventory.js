@@ -2,7 +2,6 @@ var Phaser = require("phaser");
 
 var Inventory = function(game) {
     this.avatar = null;
-    this.playMemento = null;
 };
 
 Inventory.prototype = {
@@ -11,9 +10,8 @@ Inventory.prototype = {
     update: update
 }
 
-function init(avatar, playMemento) {
+function init(avatar) {
     this.avatar = avatar;
-    this.playMemento = playMemento;
 }
 
 function create() {
@@ -22,7 +20,7 @@ function create() {
 function update() {
     if (this.game.input.keyboard.isDown(Phaser.Keyboard.I))
     {
-        this.game.state.start("Play", true, false, this.playMemento);
+        this.game.state.start("Play");
     }
 }
 

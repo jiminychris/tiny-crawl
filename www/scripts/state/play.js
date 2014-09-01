@@ -18,28 +18,34 @@ Play.prototype = {
     addHud: addHud
 }
 
-function init(memento) {
-    this.memento = memento === undefined ? null : memento;
+function init() {
 }
 
 function create() {
     var game = this.game;
 
-    if (this.memento === null)
+    var map = game.add.tilemap("map");
+    map.addTilesetImage("dungeon");
+    map.addTilesetImage("chest");
+    var layer = map.createLayer("Tile Layer 1");
+    layer.resizeWorld();
+
+    this.chests = game.add.group();
+    this.chests.enableBody = true;
+    
+    map.createFromObjects("Object Layer 1", 5, "chest", 0, true, false, this.chests, Chest);
+
+    this.avatar = new Avatar(game, 8, game.height, "maxim", 0);
+
+    if (this.memento !== null)
     {
-        var map = game.add.tilemap("map");
-        map.addTilesetImage("dungeon");
-        map.addTilesetImage("chest");
-        var layer = map.createLayer("Tile Layer 1");
-        layer.resizeWorld();
-
-        this.chests = game.add.group();
-        this.chests.enableBody = true;
-        
-        map.createFromObjects("Object Layer 1", 5, "chest", 0, true, false, this.chests, Chest);
-
-        this.avatar = new Avatar(game, 8, game.height, "maxim", 0);
-        console.log(this.world);
+        this.avatar.x = this.memento.avatar.x;
+        this.avatar.y = this.memento.avatar.y;
+        this.avatar.health.current = this.memento.avatar.health.current;
+        _.each(_.zip(this.chests.children, this.memento.chests), function(chest) {
+            chest[0].contents = chest[1].contents;
+            chest[0].frame = chest[1].frame;
+        });
     }
 
 
@@ -59,6 +65,18 @@ function create() {
 }
 
 function update() {
+    if (this.input.keyboard.isDown(Phaser.Keyboard.I))
+    {
+        var avatar = this.avatar;
+        var chests = this.chests;
+        this.memento = {
+            avatar: avatar,
+            chests: _.map(chests.children, function(chest) {
+                return { frame: chest.frame, contents: chest.contents };
+            })
+        }
+        this.state.start("Inventory", avatar);
+    }
     this.physics.arcade.overlap(this.avatar, this.chests, function(avatar, chest) {
         avatar.interact(chest);
     });
