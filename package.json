@@ -4,8 +4,15 @@
   "main": "./www/scripts/main.js",
   "description": "A fun, tiny role-playing game",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jiminychris/tiny-crawl.git"
+  },
   "dependencies": {
+    "express": "^4.8.7",
     "jquery": "2.1.1",
+    "socket.io": "^1.0.6",
+    "socket.io-client": "^1.0.6",
     "underscore": "1.6.0"
   },
   "browser": {

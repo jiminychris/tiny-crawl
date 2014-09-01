@@ -1,4 +1,5 @@
 var Phaser = require("phaser");
+var io = require("socket.io-client");
 
 var Preload = function(game) {
 };
@@ -20,7 +21,12 @@ function preload() {
 }
 
 function create() {
-    this.state.start("Play");
+    this.game.io = io();
+    var self = this;
+
+    this.game.io.on('avatar load', function(data) {
+        self.state.start("Play", true, false, data);
+    });
 }
 
 module.exports = Preload;
